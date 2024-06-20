@@ -40,8 +40,8 @@ object ReSquakeModClient : ClientModInitializer {
 
         val mc = MinecraftClient.getInstance()
         HudRenderCallback.EVENT.register { ctx: DrawContext, _: RenderTickCounter ->
-            val speed = ReSquakePlayer.currentSpeed * 20
-            val speedDifference = speed - (ReSquakePlayer.previousSpeed * 20)
+            val speed = ReSquakePlayer.currentSpeed * 20 * 40
+            val speedDifference = speed - (ReSquakePlayer.previousSpeed * 20 * 40)
             if (!ReSquakeMod.config.speedDeltaIndicatorEnabled || !ReSquakePlayer.jumping || ReSquakePlayer.swimming || speed < ReSquakeMod.config.speedDeltaThreshold)
                 return@register
 

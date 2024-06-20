@@ -33,16 +33,6 @@ fun generateConfigScreen(parent: Screen?): Screen
 
                 .option(
                     Option.createBuilder<Boolean>()
-                    .name(Text.of("Trimping"))
-                    .description(OptionDescription.of(Text.of("Enables/disables trimping (big jump when sneaking)")))
-                    .binding(ReSquakeConfig.DEFAULT_TRIMPING_ENABLED,
-                        { ReSquakeMod.config.trimpingEnabled },
-                        { ReSquakeMod.config.trimpingEnabled = it })
-                    .controller(BooleanControllerBuilder::create)
-                    .build())
-
-                .option(
-                    Option.createBuilder<Boolean>()
                     .name(Text.of("Sharking"))
                     .description(OptionDescription.of(Text.of("Enables/disables sharking (water glide)")))
                     .binding(ReSquakeConfig.DEFAULT_SHARKING_ENABLED,
@@ -70,7 +60,7 @@ fun generateConfigScreen(parent: Screen?): Screen
                         Option.createBuilder<Boolean>()
                     .name(Text.of("No jump cooldown"))
                     .description(OptionDescription.of(Text.of("Enables/disables jump cooldown (better to leave enabled)")))
-                    .binding(ReSquakeConfig.DEFAULT_TRIMPING_ENABLED,
+                    .binding(ReSquakeConfig.DEFAULT_NO_JUMP_COOLDOWN,
                         { ReSquakeMod.config.noJumpCooldown },
                         { ReSquakeMod.config.noJumpCooldown = it })
                     .controller(BooleanControllerBuilder::create)
@@ -163,21 +153,11 @@ fun generateConfigScreen(parent: Screen?): Screen
                 .collapsed(false)
                 .option(
                     Option.createBuilder<Double>()
-                    .name(Text.of("Soft cap threshold"))
-                    .description(OptionDescription.of(Text.of("soft cap speed = (moveSpeed*softCapThreshold)")))
-                    .binding(ReSquakeConfig.DEFAULT_SOFT_CAP_THRESHOLD,
-                        { ReSquakeMod.config.softCapThreshold },
-                        { ReSquakeMod.config.softCapThreshold = it })
-                    .controller(DoubleFieldControllerBuilder::create)
-                    .build())
-
-                .option(
-                    Option.createBuilder<Double>()
-                    .name(Text.of("Hard cap threshold"))
-                    .description(OptionDescription.of(Text.of("If you jump while above the hard cap speed (moveSpeed*hardCapThreshold), your speed is set to the hard cap speed")))
-                    .binding(ReSquakeConfig.DEFAULT_HARD_CAP_THRESHOLD,
-                        { ReSquakeMod.config.hardCapThreshold },
-                        { ReSquakeMod.config.hardCapThreshold = it })
+                    .name(Text.of("Hard cap speed (quake units)"))
+                    .description(OptionDescription.of(Text.of("If you jump while above the hard cap speed your speed is set to the hard cap speed")))
+                    .binding(ReSquakeConfig.DEFAULT_HARD_CAP_SPEED,
+                        { ReSquakeMod.config.hardCapSpeed },
+                        { ReSquakeMod.config.hardCapSpeed = it })
                     .controller(DoubleFieldControllerBuilder::create)
                     .build())
 
@@ -203,36 +183,11 @@ fun generateConfigScreen(parent: Screen?): Screen
 
                 .option(
                     Option.createBuilder<Double>()
-                    .name(Text.of("Max air acceleration per tick"))
+                    .name(Text.of("Max air acceleration per tick (quake units)"))
                     .description(OptionDescription.of(Text.of("Limit for how much you can accelerate in a tick")))
                     .binding(ReSquakeConfig.DEFAULT_MAX_AACEL_PER_TICK,
                         { ReSquakeMod.config.maxAAccPerTick },
                         { ReSquakeMod.config.maxAAccPerTick = it })
-                    .controller(DoubleFieldControllerBuilder::create)
-                    .build())
-
-                .option(
-                    Option.createBuilder<Double>()
-                    .name(Text.of("Soft cap degen"))
-                    .description(OptionDescription.of(Text.of("The modifier used to calculate speed lost when jumping above the soft cap")))
-                    .binding(ReSquakeConfig.DEFAULT_SOFT_CAP_DEGEN,
-                        { ReSquakeMod.config.softCapDegen },
-                        { ReSquakeMod.config.softCapDegen = it })
-                    .controller(DoubleFieldControllerBuilder::create)
-                    .build())
-                .build())
-
-            .group(
-                OptionGroup.createBuilder()
-                .name(Text.of("Trimping"))
-                .collapsed(false)
-                .option(
-                    Option.createBuilder<Double>()
-                    .name(Text.of("Trimp multiplier"))
-                    .description(OptionDescription.of(Text.of("A lower value means less horizontal speed converted to vertical speed")))
-                    .binding(ReSquakeConfig.DEFAULT_TRIMP_MULTIPLIER,
-                        { ReSquakeMod.config.trimpMultiplier },
-                        { ReSquakeMod.config.trimpMultiplier = it })
                     .controller(DoubleFieldControllerBuilder::create)
                     .build())
                 .build())
