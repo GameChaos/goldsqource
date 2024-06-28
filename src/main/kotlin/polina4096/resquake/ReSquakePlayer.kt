@@ -153,15 +153,21 @@ object ReSquakePlayer {
         return 0.0
     }
     private fun PlayerEntity.getBaseSpeedCurrent(): Double {
-        val baseSpeed = this.movementSpeed
-	    if (!this.isSneaking && !this.isInSneakingPose && !this.isInSwimmingPose && !this.isUsingItem())
+        var result: Double = this.movementSpeed.toDouble()
+		if (!this.isSneaking && !this.isInSneakingPose && !this.isInSwimmingPose)
 		{
-			return baseSpeed * QUAKE_MOVEMENT_SPEED_MULTIPLIER;
+			result *= QUAKE_MOVEMENT_SPEED_MULTIPLIER
 		}
 		else
 		{
-			return baseSpeed * QUAKE_SNEAKING_SPEED_MULTIPLIER;
+			result *= QUAKE_SNEAKING_SPEED_MULTIPLIER
 		}
+		
+		if (this.isUsingItem())
+		{
+			result *= 0.2
+		}
+		return result
     }
     private fun PlayerEntity.getBaseSpeedMax(): Double {
         val baseSpeed = this.movementSpeed
@@ -226,8 +232,8 @@ object ReSquakePlayer {
         else {
             val airAcceleration = ReSquakeMod.config.airAcceleration
             // simulate 100 tickrate airacceleration
-            val realYaw = this.yaw;
-            var savedYaw = this.yaw;
+            val realYaw = this.yaw
+            var savedYaw = this.yaw
             if (savedYaw - previousYaw > 180.0f)
             {
                 savedYaw -= 360.0f
@@ -271,7 +277,7 @@ object ReSquakePlayer {
     
     private fun lerp(a: Double, b: Double, t: Double): Double
     {
-        return (1.0 - t) * a + b * t;
+        return (1.0 - t) * a + b * t
     }
 
     private fun PlayerEntity.applyGravity() {
