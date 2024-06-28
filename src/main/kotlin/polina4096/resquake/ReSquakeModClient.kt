@@ -37,19 +37,5 @@ object ReSquakeModClient : ClientModInitializer {
                 else client.player?.sendMessage(Text.translatable("resquake.disabled"), true)
             }
         })
-
-        val mc = MinecraftClient.getInstance()
-        HudRenderCallback.EVENT.register { ctx: DrawContext, _: RenderTickCounter ->
-            val speed = ReSquakePlayer.currentSpeed * 20 * 40
-            if (!ReSquakeMod.config.speedDeltaIndicatorEnabled)
-                return@register
-
-            val posX = mc.window.scaledWidth  / 2.0f
-            val posY = mc.window.scaledHeight / 2.0f
-            val text = "%.2f".format(speed)
-
-            val centerOffset = mc.textRenderer.getWidth(text) / 2.0f
-            ctx.drawTextWithShadow(mc.textRenderer, text, (posX - centerOffset).roundToInt(), (posY + 15).roundToInt(), ReSquakeMod.config.speedUnchangedColor)
-        }
     }
 }

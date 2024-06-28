@@ -143,7 +143,7 @@ object ReSquakePlayer {
     }
 
     private const val QUAKE_MOVEMENT_SPEED_MULTIPLIER = 2.15
-    private const val QUAKE_SNEAKING_SPEED_MULTIPLIER = 1.10
+    private const val QUAKE_SNEAKING_SPEED_MULTIPLIER = 0.65
     private fun PlayerEntity.getSlipperiness(): Double {
         if (this.isOnGround) {
             val groundPos = BlockPos.ofFloored(this.x, this.boundingBox.minY - 1, this.z)
@@ -154,7 +154,14 @@ object ReSquakePlayer {
     }
     private fun PlayerEntity.getBaseSpeedCurrent(): Double {
         val baseSpeed = this.movementSpeed
-        return (if (!this.isSneaking) baseSpeed * QUAKE_MOVEMENT_SPEED_MULTIPLIER else baseSpeed * QUAKE_SNEAKING_SPEED_MULTIPLIER)
+	    if (!this.isSneaking && !this.isInSneakingPose && !this.isInSwimmingPose && !this.isUsingItem())
+		{
+			return baseSpeed * QUAKE_MOVEMENT_SPEED_MULTIPLIER;
+		}
+		else
+		{
+			return baseSpeed * QUAKE_SNEAKING_SPEED_MULTIPLIER;
+		}
     }
     private fun PlayerEntity.getBaseSpeedMax(): Double {
         val baseSpeed = this.movementSpeed
@@ -168,7 +175,10 @@ object ReSquakePlayer {
 
     private fun PlayerEntity.travelQuake(sidemove: Double, forwardmove: Double): Boolean {
         // Fallback to default minecraft movement
-        if (this.isClimbing || this.isInSwimmingPose) return false
+        if (this.isClimbing)
+		{
+			return false
+		}
 
         val flying = (this.abilities.flying || this.isFallFlying)
         if (this.isInLava && !flying) return false // Swimming in lava
