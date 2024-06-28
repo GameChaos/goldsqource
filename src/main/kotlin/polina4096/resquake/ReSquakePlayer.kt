@@ -65,10 +65,6 @@ object ReSquakePlayer {
                 player.velocity = Vec3d(xVel, player.velocity.y, zVel)
             }
 
-            // Update last recorded speed
-            val speed = player.getSpeed()
-            collectSpeed(speed)
-
             player.applyHardCap()
             player.spawnBunnyhopParticles(ReSquakeMod.config.jumpParticles)
         }
@@ -80,6 +76,10 @@ object ReSquakePlayer {
             ||   player.isFallFlying
             ||   player.vehicle != null)
             return false
+            
+        // Update last recorded speed
+        val speed = player.getSpeed()
+        collectSpeed(speed)
         
         val preX = player.x
         val preY = player.y
@@ -125,7 +125,7 @@ object ReSquakePlayer {
         if (preSpeed >= 0) {
             var speed = sqrt(preSpeed)
 
-            speed = if (speed < 1.0) 1.0
+            speed = if (speed <= 0.0) 1.0
             else             1.0 / speed
 
             val sidemove    = sidemoveInitial    * speed
@@ -178,8 +178,6 @@ object ReSquakePlayer {
         val wishspeed = if (sidemove != 0.0 || forwardmove != 0.0) this.getBaseSpeedCurrent() else 0.0
         val onGroundForReal = this.isOnGround && !jumping
         
-//         this.sendMessage(Text.translatable("%.2f %.2f".format(this.yaw, previousYaw)))
-
         // Sharking
         if (this.isTouchingWater && !flying) {
             if (ReSquakeMod.config.sharkingEnabled)
@@ -239,6 +237,7 @@ object ReSquakePlayer {
             {
                 this.yaw = lerp(previousYaw.toDouble(), savedYaw.toDouble(), i.toDouble() / 5.0).toFloat()
                 val wishdirAir = this.getMovementDirection(sidemove, forwardmove)
+//                 this.sendMessage(Text.translatable("%.2f %.2f ".format(wishdirAir.first, wishdirAir.second)))
                 this.airAccelerate(airWishspeed, wishdirAir.first, wishdirAir.second, airAcceleration)
             }
             this.yaw = realYaw

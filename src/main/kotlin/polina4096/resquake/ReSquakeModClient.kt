@@ -41,8 +41,7 @@ object ReSquakeModClient : ClientModInitializer {
         val mc = MinecraftClient.getInstance()
         HudRenderCallback.EVENT.register { ctx: DrawContext, _: RenderTickCounter ->
             val speed = ReSquakePlayer.currentSpeed * 20 * 40
-            val speedDifference = speed - (ReSquakePlayer.previousSpeed * 20 * 40)
-            if (!ReSquakeMod.config.speedDeltaIndicatorEnabled || !ReSquakePlayer.jumping || ReSquakePlayer.swimming || speed < ReSquakeMod.config.speedDeltaThreshold)
+            if (!ReSquakeMod.config.speedDeltaIndicatorEnabled)
                 return@register
 
             val posX = mc.window.scaledWidth  / 2.0f
@@ -50,19 +49,7 @@ object ReSquakeModClient : ClientModInitializer {
             val text = "%.2f".format(speed)
 
             val centerOffset = mc.textRenderer.getWidth(text) / 2.0f
-
-            val delta = ReSquakePlayer.currentSpeed.compareTo(ReSquakePlayer.previousSpeed)
-            val color = when {
-                delta > 0 -> ReSquakeMod.config.speedGainColor
-                delta < 0 -> ReSquakeMod.config.speedLossColor
-                else -> ReSquakeMod.config.speedUnchangedColor
-            }
-
-            ctx.drawTextWithShadow(mc.textRenderer, text, (posX - centerOffset).roundToInt(), (posY + 15).roundToInt(), color)
-            if (ReSquakeMod.config.speedDiffIndicatorEnabled) {
-                val differenceText = "%.2f".format(speedDifference)
-                ctx.drawTextWithShadow(mc.textRenderer, differenceText, (posX - centerOffset).roundToInt(), (posY + 25).roundToInt(), color)
-            }
+            ctx.drawTextWithShadow(mc.textRenderer, text, (posX - centerOffset).roundToInt(), (posY + 15).roundToInt(), ReSquakeMod.config.speedUnchangedColor)
         }
     }
 }
