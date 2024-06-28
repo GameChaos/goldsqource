@@ -7,7 +7,7 @@ import net.fabricmc.api.Environment
 import polina4096.resquake.generateConfigScreen
 
 @Environment(EnvType.CLIENT)
-class ModMenuIntegration : ModMenuApi {
-    override fun getModConfigScreenFactory()
-        = ConfigScreenFactory { generateConfigScreen(it) }
+class ModMenuIntegration : ModMenuApi
+{
+	override fun getModConfigScreenFactory() = ConfigScreenFactory {generateConfigScreen(it)}
 }

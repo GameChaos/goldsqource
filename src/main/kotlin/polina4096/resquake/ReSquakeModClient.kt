@@ -18,24 +18,34 @@ import net.minecraft.client.render.RenderTickCounter
 
 
 object ReSquakeModClient : ClientModInitializer {
-    private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${ReSquakeMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.${ReSquakeMod.ID}"))
-    private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${ReSquakeMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.${ReSquakeMod.ID}"))
-
-    override fun onInitializeClient() {
-        ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick { client: MinecraftClient ->
-            if (client.player != null)
-                ReSquakePlayer.jumping = client.player!!.input.jumping
-
-            if (keyConfig.wasPressed()) {
-                client.setScreen(generateConfigScreen(client.currentScreen))
-            }
-
-            while (keyToggle.wasPressed()) {
-                ReSquakeMod.config.quakeMovementEnabled = !ReSquakeMod.config.quakeMovementEnabled
-                if (ReSquakeMod.config.quakeMovementEnabled)
-                     client.player?.sendMessage(Text.translatable("resquake.enabled"), true)
-                else client.player?.sendMessage(Text.translatable("resquake.disabled"), true)
-            }
-        })
-    }
+	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${ReSquakeMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.${ReSquakeMod.ID}"))
+	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${ReSquakeMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.${ReSquakeMod.ID}"))
+	
+	override fun onInitializeClient()
+	{
+		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: MinecraftClient ->
+			if (client.player != null)
+			{
+				ReSquakePlayer.jumping = client.player!!.input.jumping
+			}
+			
+			if (keyConfig.wasPressed())
+			{
+				client.setScreen(generateConfigScreen(client.currentScreen))
+			}
+			
+			while (keyToggle.wasPressed())
+			{
+				ReSquakeMod.config.quakeMovementEnabled = !ReSquakeMod.config.quakeMovementEnabled
+				if (ReSquakeMod.config.quakeMovementEnabled)
+				{
+					client.player?.sendMessage(Text.translatable("resquake.enabled"), true)
+				}
+				else
+				{
+					client.player?.sendMessage(Text.translatable("resquake.disabled"), true)
+				}
+			}
+		})
+	}
 }
