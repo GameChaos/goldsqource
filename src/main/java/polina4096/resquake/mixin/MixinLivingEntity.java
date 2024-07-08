@@ -24,19 +24,31 @@ public abstract class MixinLivingEntity
 			jumpingCooldown = 0;
 		}
 		
-		if (!jumping)
+		if (ReSquakeMod.config.getBufferedJump())
+		{
+			if (!jumping)
+			{
+				jumped = false;
+			}
+			else if (jumped)
+			{
+				jumping = false;
+			}
+		}
+		else
 		{
 			jumped = false;
-		}
-		else if (jumped)
-		{
-			jumping = false;
 		}
 	}
 	
 	@Inject(method = "jump", at = @At(value = "HEAD"), cancellable = true)
 	public void jump(CallbackInfo ci)
 	{
+		if (!ReSquakeMod.config.getBufferedJump())
+		{
+			return;
+		}
+		
 		if (jumped)
 		{
 			ci.cancel();

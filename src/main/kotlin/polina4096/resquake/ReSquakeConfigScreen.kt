@@ -67,6 +67,16 @@ fun generateConfigScreen(parent: Screen?): Screen
 					.build())
 				
 				.option(
+						Option.createBuilder<Boolean>()
+					.name(Text.of("Buffered jump"))
+					.description(OptionDescription.of(Text.of("Requires you to repress your jump key after doing a jump, like in Quake.")))
+					.binding(ReSquakeConfig.DEFAULT_BUFFERED_JUMP,
+						{ ReSquakeMod.config.bufferedJump },
+						{ ReSquakeMod.config.bufferedJump = it })
+					.controller(BooleanControllerBuilder::create)
+					.build())
+				
+				.option(
 					Option.createBuilder<Int>()
 					.name(Text.of("Jump particles"))
 					.description(OptionDescription.of(Text.of("Amount of particles that spawn when you hit the ground (0 to disable)")))

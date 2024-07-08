@@ -22,6 +22,7 @@ class ReSquakeConfig(@Transient var path: Path? = null)
 	// Miscellaneous
 	var uncappedBunnyhop           : Boolean = DEFAULT_UNCAPPED_BUNNYHOP
 	var noJumpCooldown             : Boolean = DEFAULT_NO_JUMP_COOLDOWN
+	var bufferedJump               : Boolean = DEFAULT_BUFFERED_JUMP
 	var jumpParticles              : Int     = DEFAULT_JUMP_PARTICLES
 	
 	// Speed indicator
@@ -58,6 +59,7 @@ class ReSquakeConfig(@Transient var path: Path? = null)
 		// Miscellaneous
 		const val DEFAULT_UNCAPPED_BUNNYHOP             = true
 		const val DEFAULT_NO_JUMP_COOLDOWN              = true
+		const val DEFAULT_BUFFERED_JUMP                 = false
 		const val DEFAULT_JUMP_PARTICLES                = 4
 		
 		// Speed indicator
