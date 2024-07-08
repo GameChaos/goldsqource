@@ -10,13 +10,40 @@ import net.minecraft.entity.LivingEntity;
 import polina4096.resquake.ReSquakeMod;
 
 @Mixin(LivingEntity.class)
-public abstract class MixinLivingEntity {
-    @Shadow private int jumpingCooldown;
+public abstract class MixinLivingEntity
+{
+	@Shadow private int jumpingCooldown;
+	@Shadow protected boolean jumping;
+	public Boolean jumped = false;
 
-    @Inject(method = "tickMovement", at = @At(value = "HEAD"))
-    public void tickMovement(CallbackInfo ci) {
-        if (ReSquakeMod.config.getNoJumpCooldown()) {
-            jumpingCooldown = 0;
-        }
-    }
+	@Inject(method = "tickMovement", at = @At(value = "HEAD"))
+	public void tickMovement(CallbackInfo ci)
+	{
+		if (ReSquakeMod.config.getNoJumpCooldown())
+		{
+			jumpingCooldown = 0;
+		}
+		
+		if (!jumping)
+		{
+			jumped = false;
+		}
+		else if (jumped)
+		{
+			jumping = false;
+		}
+	}
+	
+	@Inject(method = "jump", at = @At(value = "HEAD"), cancellable = true)
+	public void jump(CallbackInfo ci)
+	{
+		if (jumped)
+		{
+			ci.cancel();
+		}
+		else
+		{
+			jumped = true;
+		}
+	}
 }

@@ -31,6 +31,7 @@ object ReSquakePlayer
 	var previousSpeed : Double  = 0.0
 	var currentSpeed  : Double  = 0.0
 	var jumping	      : Boolean = false
+	var jumped        : Boolean = false
 	var swimming	  : Boolean = false
 	
 	private fun collectSpeed(speed: Double)
@@ -85,6 +86,7 @@ object ReSquakePlayer
 			
 			player.applyHardCap()
 			player.spawnBunnyhopParticles(ReSquakeMod.config.jumpParticles)
+			jumped = true
 		}
 	}
 	
@@ -98,7 +100,7 @@ object ReSquakePlayer
 		{
 			return false
 		}
-			
+		
 		// Update last recorded speed
 		val speed = player.getSpeed()
 		collectSpeed(speed)
@@ -333,6 +335,21 @@ object ReSquakePlayer
 		
 		// Apply velocity
 		this.move(MovementType.SELF, this.velocity)
+		
+		// stick to ground, aka ledgegrab/glidestep
+		val list = this.getWorld().getEntityCollisions(null, this.getBoundingBox().stretch(movement))
+		val down = -(4.0 * FROM_QUAKE)
+		val movement: Vec3d = Entity.adjustMovementForCollisions(null, Vec3d(0.0, down, 0.0), this.getBoundingBox(), this.getWorld(), list)
+		if (movement.y > down
+			&& !this.isOnGround
+			&& this.velocity.y * TICKRATE * TO_QUAKE < 200.0
+			&& this.velocity.y >= 0.0) // don't need to ledgegrab if falling down
+		{
+			val pos = this.getPos()
+			this.setPosition(pos.x, pos.y + movement.y, pos.z)
+			this.velocity = Vec3d(this.velocity.x, 0.0, this.velocity.z)
+			this.setOnGround(true)
+		}
 		
 		// HL2 code applies half gravity before acceleration and half after acceleration, but this seems to work fine
 		this.applyGravity()

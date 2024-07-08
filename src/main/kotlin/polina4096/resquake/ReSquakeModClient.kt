@@ -27,6 +27,15 @@ object ReSquakeModClient : ClientModInitializer {
 			if (client.player != null)
 			{
 				ReSquakePlayer.jumping = client.player!!.input.jumping
+				if (!client.player!!.input.jumping)
+				{
+					ReSquakePlayer.jumped = false
+				}
+				else if (ReSquakePlayer.jumped)
+				{
+					// this is so that you don't airaccelerate on the ground
+					ReSquakePlayer.jumping = false
+				}
 			}
 			
 			if (keyConfig.wasPressed())
