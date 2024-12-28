@@ -1,4 +1,4 @@
-package polina4096.resquake
+package gamechaos.goldsqource
 
 import dev.isxander.yacl3.api.*
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder

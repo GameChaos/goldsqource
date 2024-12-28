@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "resquake",
+	"id": "goldsqource",
 	"version": "${version}",
-	"name": "re:squake",
+	"name": "goldsqource",
 	"description": "Brings quake-style movement into the game.",
 	"authors": [
 		"Полина",
@@ -16,30 +16,30 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "unlicense",
-	"icon": "assets/resquake/icon.png",
+	"icon": "assets/goldsqource/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
 			{
-				"value": "polina4096.resquake.ReSquakeMod",
+				"value": "gamechaos.goldsqource.ReSquakeMod",
 				"adapter": "kotlin"
 			}
 		],
 		"client": [
 			{
-				"value": "polina4096.resquake.ReSquakeModClient",
+				"value": "gamechaos.goldsqource.ReSquakeModClient",
 				"adapter": "kotlin"
 			}
 		],
 		"modmenu": [
 			{
-				"value": "polina4096.resquake.integration.ModMenuIntegration",
+				"value": "gamechaos.goldsqource.integration.ModMenuIntegration",
 				"adapter": "kotlin"
 			}
 		]
 	},
 	"mixins": [
-		"resquake.mixins.json"
+		"goldsqource.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",

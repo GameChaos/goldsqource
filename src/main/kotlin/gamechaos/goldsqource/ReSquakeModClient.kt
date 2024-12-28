@@ -1,4 +1,4 @@
-package polina4096.resquake
+package gamechaos.goldsqource
 
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -12,7 +12,7 @@ import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import org.lwjgl.glfw.GLFW
-import polina4096.resquake.integration.ModMenuIntegration
+import gamechaos.goldsqource.integration.ModMenuIntegration
 import kotlin.math.roundToInt
 import net.minecraft.client.render.RenderTickCounter
 
@@ -53,11 +53,11 @@ object ReSquakeModClient : ClientModInitializer {
 				ReSquakeMod.config.quakeMovementEnabled = !ReSquakeMod.config.quakeMovementEnabled
 				if (ReSquakeMod.config.quakeMovementEnabled)
 				{
-					client.player?.sendMessage(Text.translatable("resquake.enabled"), true)
+					client.player?.sendMessage(Text.translatable("goldsqource.enabled"), true)
 				}
 				else
 				{
-					client.player?.sendMessage(Text.translatable("resquake.disabled"), true)
+					client.player?.sendMessage(Text.translatable("goldsqource.disabled"), true)
 				}
 			}
 		})

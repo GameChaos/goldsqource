@@ -1,4 +1,4 @@
-package polina4096.resquake
+package gamechaos.goldsqource
 
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.Blocks

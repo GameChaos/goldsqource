@@ -1,4 +1,4 @@
-package polina4096.resquake.mixin;
+package gamechaos.goldsqource.mixin;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -12,20 +12,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import polina4096.resquake.ReSquakePlayer;
+import gamechaos.goldsqource.ReSquakePlayer;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends LivingEntity {
 	protected MixinPlayerEntity(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
-	/*
-	@Inject(method = "jump", at = @At("TAIL"))
-	public void jumpInject(CallbackInfo ci) {
-		PlayerEntity player = (PlayerEntity)(Object)this;
-		ReSquakePlayer.INSTANCE.afterJump(player);
-	}
-*/
+	
 	@Inject(method = "travel", at = @At("HEAD"), cancellable = true)
 	public void travelInject(Vec3d movementInput, CallbackInfo ci) {
 		PlayerEntity player = (PlayerEntity)(Object)this;

@@ -1,4 +1,4 @@
-package polina4096.resquake
+package gamechaos.goldsqource
 
 import kotlinx.serialization.*
 import kotlinx.serialization.Transient

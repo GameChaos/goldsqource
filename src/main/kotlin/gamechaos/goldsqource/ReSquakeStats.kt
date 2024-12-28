@@ -1,4 +1,4 @@
-package polina4096.resquake
+package gamechaos.goldsqource
 
 import net.minecraft.registry.Registries
 import net.minecraft.registry.Registry

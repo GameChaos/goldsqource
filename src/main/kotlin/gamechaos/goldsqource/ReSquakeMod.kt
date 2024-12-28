@@ -1,4 +1,4 @@
-package polina4096.resquake
+package gamechaos.goldsqource
 
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.loader.api.FabricLoader
@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory
 
 object ReSquakeMod : ModInitializer
 {
-	const val ID   = "resquake"
-	const val NAME = "re:squake"
+	const val ID   = "goldsqource"
+	const val NAME = "goldsqource"
 	
 	val logger = LoggerFactory.getLogger(ID)
 	
@@ -21,6 +21,6 @@ object ReSquakeMod : ModInitializer
 		
 		ReSquakeStats.register();
 		
-		logger.info("re:squake initialized!")
+		logger.info("goldsqource initialized!")
 	}
 }

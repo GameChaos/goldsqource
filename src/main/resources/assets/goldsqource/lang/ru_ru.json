@@ -1,0 +1,10 @@
+{
+  "category.goldsqource": "goldsqource",
+  "key.goldsqource.toggle": "Включить/выключить goldsqource",
+  "key.goldsqource.config": "Меню настройки goldsqource",
+  "goldsqource.enabled": "goldsqource включен",
+  "goldsqource.disabled": "goldsqource выключен",
+  "stat.goldsqource.trimps": "Тримпов",
+  "stat.goldsqource.bhop_one_cm": "Преодолено баннихопом",
+  "stat.goldsqource.shark_one_cm": "Преодолено шаркингом"
+}

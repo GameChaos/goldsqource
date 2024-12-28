@@ -1,0 +1,10 @@
+{
+  "category.goldsqource": "goldsqource",
+  "key.goldsqource.toggle": "Toggle goldsqource",
+  "key.goldsqource.config": "Open goldsqource config",
+  "goldsqource.enabled": "goldsqource enabled",
+  "goldsqource.disabled": "goldsqource disabled",
+  "stat.goldsqource.trimps": "Trimps",
+  "stat.goldsqource.bhop_one_cm": "Distance Bunny-Hopped",
+  "stat.goldsqource.shark_one_cm": "Distance by Sharking"
+}

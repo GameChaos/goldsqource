@@ -1,4 +1,4 @@
-package polina4096.resquake.mixin;
+package gamechaos.goldsqource.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.LivingEntity;
-import polina4096.resquake.ReSquakeMod;
-import polina4096.resquake.ReSquakePlayer;
+import gamechaos.goldsqource.ReSquakeMod;
+import gamechaos.goldsqource.ReSquakePlayer;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity
