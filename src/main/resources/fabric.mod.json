@@ -5,6 +5,7 @@
 	"name": "goldsqource",
 	"description": "Brings quake-style movement into the game.",
 	"authors": [
+		"GameChaos",
 		"Полина",
 		"He11crow",
 		"squeek502",
@@ -12,8 +13,7 @@
 		"LeviOP"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/GameChaos/resquake/"
 	},
 	"license": "unlicense",
 	"icon": "assets/goldsqource/icon.png",
@@ -21,13 +21,13 @@
 	"entrypoints": {
 		"main": [
 			{
-				"value": "gamechaos.goldsqource.ReSquakeMod",
+				"value": "gamechaos.goldsqource.MvMod",
 				"adapter": "kotlin"
 			}
 		],
 		"client": [
 			{
-				"value": "gamechaos.goldsqource.ReSquakeModClient",
+				"value": "gamechaos.goldsqource.MvModClient",
 				"adapter": "kotlin"
 			}
 		],

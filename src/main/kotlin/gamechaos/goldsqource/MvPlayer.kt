@@ -18,7 +18,7 @@ import net.minecraft.text.Text
 import kotlin.math.*
 
 
-object ReSquakePlayer
+object MvPlayer
 {
 	private var baseVelocities = mutableListOf<Pair<Double, Double>>()
 	private const val TO_QUAKE = 40.0 // 72 / 1.8 (player height in source divided by player height in minecraft)
@@ -44,7 +44,7 @@ object ReSquakePlayer
 	fun updateVelocity(player: Entity, speed: Float, sidemove: Double, forwardmove: Double): Boolean
 	{
 		// When the bunnyhop is enabled
-		if (!ReSquakeMod.config.quakeMovementEnabled) return false
+		if (!MvMod.config.quakeMovementEnabled) return false
 		
 		if (player !is PlayerEntity)
 		{
@@ -74,7 +74,7 @@ object ReSquakePlayer
 	
 	fun afterJump(player: PlayerEntity)
 	{
-		if (player.world.isClient && ReSquakeMod.config.quakeMovementEnabled)
+		if (player.world.isClient && MvMod.config.quakeMovementEnabled)
 		{
 			if (player.isSprinting)
 			{
@@ -85,14 +85,14 @@ object ReSquakePlayer
 			}
 			
 			player.applyHardCap()
-			player.spawnBunnyhopParticles(ReSquakeMod.config.jumpParticles)
+			player.spawnBunnyhopParticles(MvMod.config.jumpParticles)
 			jumped = true
 		}
 	}
 	
 	fun travel(player: PlayerEntity, movementInput: Vec3d): Boolean
 	{
-		if (!ReSquakeMod.config.quakeMovementEnabled
+		if (!MvMod.config.quakeMovementEnabled
 			||  !player.world.isClient
 			||   player.abilities.flying
 			//||   player.isFallFlying
@@ -124,12 +124,12 @@ object ReSquakePlayer
 				if (player.isTouchingWater && !flying)
 				{
 					println((distance * 100.0).roundToInt())
-					player.increaseStat(ReSquakeStats.SHARK_ONE_CM, (distance * 100.0).roundToInt())
+					player.increaseStat(MvStats.SHARK_ONE_CM, (distance * 100.0).roundToInt())
 				}
 				else
 				{
 					println((distance * 100.0).roundToInt())
-					player.increaseStat(ReSquakeStats.BHOP_ONE_CM, (distance * 100.0).roundToInt())
+					player.increaseStat(MvStats.BHOP_ONE_CM, (distance * 100.0).roundToInt())
 				}
 			}
 			
@@ -263,7 +263,7 @@ object ReSquakePlayer
 			if (wishspeed != 0.0)
 			{
 				// Alter based on the surface friction
-				val acceleration = ReSquakeMod.config.acceleration * (0.16277136 / (slipperiness * slipperiness * slipperiness))
+				val acceleration = MvMod.config.acceleration * (0.16277136 / (slipperiness * slipperiness * slipperiness))
 				this.accelerate(wishspeed, wishdir.first, wishdir.second, acceleration, slipperiness)
 			}
 			
@@ -285,7 +285,7 @@ object ReSquakePlayer
 		}
 		else // Air movement
 		{
-			val airAcceleration = ReSquakeMod.config.airAcceleration
+			val airAcceleration = MvMod.config.airAcceleration
 			// simulate 100 tickrate airacceleration
 			val realYaw = this.yaw
 			var savedYaw = this.yaw
@@ -414,7 +414,7 @@ object ReSquakePlayer
 	
 	private fun PlayerEntity.airAccelerate(wishspeedInitial_: Double, wishX: Double, wishZ: Double, accel: Double)
 	{
-		val maxAirAcceleration = ReSquakeMod.config.maxAAccPerTick
+		val maxAirAcceleration = MvMod.config.maxAAccPerTick
 		// velocity is per-tick in minecraft, not per-second like in source/quake. AAAAAAAAAAAAAAAAa
 		var wishspeedInitial: Double = wishspeedInitial_ * TO_QUAKE * TICKRATE
 		val wishspeed = if (wishspeedInitial > maxAirAcceleration) maxAirAcceleration else wishspeedInitial
@@ -443,7 +443,7 @@ object ReSquakePlayer
 	
 	private fun PlayerEntity.applyHardCap()
 	{
-		val hardCap = ReSquakeMod.config.hardCapSpeed * FROM_QUAKE * FRAMETIME
+		val hardCap = MvMod.config.hardCapSpeed * FROM_QUAKE * FRAMETIME
 		val speed = this.getSpeed()
 		
 		if (speed > hardCap && hardCap != 0.0)

@@ -6,11 +6,11 @@ import net.minecraft.stat.StatFormatter
 import net.minecraft.stat.Stats
 import net.minecraft.util.Identifier
 
-object ReSquakeStats
+object MvStats
 {
-	val BHOP_ONE_CM = Identifier.of(ReSquakeMod.ID, "bhop_one_cm")
-	val SHARK_ONE_CM = Identifier.of(ReSquakeMod.ID, "shark_one_cm")
-	val TRIMPS = Identifier.of(ReSquakeMod.ID, "trimps")
+	val BHOP_ONE_CM = Identifier.of(MvMod.ID, "bhop_one_cm")
+	val SHARK_ONE_CM = Identifier.of(MvMod.ID, "shark_one_cm")
+	val TRIMPS = Identifier.of(MvMod.ID, "trimps")
 	
 	fun register()
 	{

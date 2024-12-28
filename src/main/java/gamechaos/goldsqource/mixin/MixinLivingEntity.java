@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.LivingEntity;
-import gamechaos.goldsqource.ReSquakeMod;
-import gamechaos.goldsqource.ReSquakePlayer;
+import gamechaos.goldsqource.MvMod;
+import gamechaos.goldsqource.MvPlayer;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity
@@ -29,7 +29,7 @@ public abstract class MixinLivingEntity
 		// no jumping cooldown!
 		jumpingCooldown = 0;
 		
-		if (ReSquakeMod.config.getBufferedJump())
+		if (MvMod.config.getBufferedJump())
 		{
 			if (!jumping)
 			{
@@ -54,7 +54,7 @@ public abstract class MixinLivingEntity
 			return;
 		}
 		
-		if (!ReSquakeMod.config.getBufferedJump())
+		if (!MvMod.config.getBufferedJump())
 		{
 			return;
 		}
@@ -78,6 +78,6 @@ public abstract class MixinLivingEntity
 		}
 		
 		PlayerEntity player = (PlayerEntity)(Object)this;
-		ReSquakePlayer.INSTANCE.afterJump(player);
+		MvPlayer.INSTANCE.afterJump(player);
 	}
 }

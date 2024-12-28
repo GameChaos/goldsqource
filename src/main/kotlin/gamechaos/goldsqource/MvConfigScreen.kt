@@ -11,8 +11,8 @@ import java.awt.Color
 
 fun generateConfigScreen(parent: Screen?): Screen
 	= YetAnotherConfigLib.createBuilder()
-		.save(ReSquakeMod.config::save)
-		.title(Text.of(ReSquakeMod.NAME))
+		.save(MvMod.config::save)
+		.title(Text.of(MvMod.NAME))
 		.category(
 			ConfigCategory.createBuilder()
 			.name(Text.of("General"))
@@ -25,9 +25,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Boolean>()
 					.name(Text.of("Quake-style movement"))
 					.description(OptionDescription.of(Text.of("Enables/disables all movement changes made by this mod")))
-					.binding(ReSquakeConfig.DEFAULT_QUAKE_MOVEMENT_ENABLED,
-						{ ReSquakeMod.config.quakeMovementEnabled },
-						{ ReSquakeMod.config.quakeMovementEnabled = it })
+					.binding(MvConfig.DEFAULT_QUAKE_MOVEMENT_ENABLED,
+						{ MvMod.config.quakeMovementEnabled },
+						{ MvMod.config.quakeMovementEnabled = it })
 					.controller(BooleanControllerBuilder::create)
 					.build())
 				.build())
@@ -41,9 +41,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 						Option.createBuilder<Boolean>()
 					.name(Text.of("Buffered jump"))
 					.description(OptionDescription.of(Text.of("Requires you to repress your jump key after doing a jump, like in Quake.")))
-					.binding(ReSquakeConfig.DEFAULT_BUFFERED_JUMP,
-						{ ReSquakeMod.config.bufferedJump },
-						{ ReSquakeMod.config.bufferedJump = it })
+					.binding(MvConfig.DEFAULT_BUFFERED_JUMP,
+						{ MvMod.config.bufferedJump },
+						{ MvMod.config.bufferedJump = it })
 					.controller(BooleanControllerBuilder::create)
 					.build())
 				
@@ -51,9 +51,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Int>()
 					.name(Text.of("Jump particles"))
 					.description(OptionDescription.of(Text.of("Amount of particles that spawn when you hit the ground (0 to disable)")))
-					.binding(ReSquakeConfig.DEFAULT_JUMP_PARTICLES,
-						{ ReSquakeMod.config.jumpParticles },
-						{ ReSquakeMod.config.jumpParticles = it })
+					.binding(MvConfig.DEFAULT_JUMP_PARTICLES,
+						{ MvMod.config.jumpParticles },
+						{ MvMod.config.jumpParticles = it })
 					.controller(IntegerFieldControllerBuilder::create)
 					.build())
 				.build())
@@ -66,9 +66,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Boolean>()
 					.name(Text.of("Delta indicator"))
 					.description(OptionDescription.of(Text.of("Enables/disables the display of change in speed")))
-					.binding(ReSquakeConfig.DEFAULT_SPEED_DELTA_INDICATOR_ENABLED,
-						{ ReSquakeMod.config.speedDeltaIndicatorEnabled },
-						{ ReSquakeMod.config.speedDeltaIndicatorEnabled = it })
+					.binding(MvConfig.DEFAULT_SPEED_DELTA_INDICATOR_ENABLED,
+						{ MvMod.config.speedDeltaIndicatorEnabled },
+						{ MvMod.config.speedDeltaIndicatorEnabled = it })
 					.controller(BooleanControllerBuilder::create)
 					.build())
 				
@@ -76,9 +76,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Boolean>()
 					.name(Text.of("Difference indicator"))
 					.description(OptionDescription.of(Text.of("Enables/disables the display of +/- speed from last hop")))
-					.binding(ReSquakeConfig.DEFAULT_SPEED_DIFF_INDICATOR_ENABLED,
-							 { ReSquakeMod.config.speedDiffIndicatorEnabled },
-							 { ReSquakeMod.config.speedDiffIndicatorEnabled = it })
+					.binding(MvConfig.DEFAULT_SPEED_DIFF_INDICATOR_ENABLED,
+							 { MvMod.config.speedDiffIndicatorEnabled },
+							 { MvMod.config.speedDiffIndicatorEnabled = it })
 					.controller(BooleanControllerBuilder::create)
 					.build())
 				
@@ -86,9 +86,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Double>()
 					.name(Text.of("Speed delta threshold"))
 					.description(OptionDescription.of(Text.of("Minimum speed needed for indicator to appear")))
-					.binding(ReSquakeConfig.DEFAULT_SPEED_DELTA_THRESHOLD,
-						{ ReSquakeMod.config.speedDeltaThreshold },
-						{ ReSquakeMod.config.speedDeltaThreshold = it })
+					.binding(MvConfig.DEFAULT_SPEED_DELTA_THRESHOLD,
+						{ MvMod.config.speedDeltaThreshold },
+						{ MvMod.config.speedDeltaThreshold = it })
 					.controller(DoubleFieldControllerBuilder::create)
 					.build())
 				
@@ -96,9 +96,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Color>()
 					.name(Text.of("Speed gain color"))
 					.description(OptionDescription.of(Text.of("Color of speed delta indicator when you gain additional speed")))
-					.binding(ReSquakeConfig.SPEED_GAIN_COLOR,
-						{ Color(ReSquakeMod.config.speedGainColor) },
-						{ ReSquakeMod.config.speedGainColor = it.rgb })
+					.binding(MvConfig.SPEED_GAIN_COLOR,
+						{ Color(MvMod.config.speedGainColor) },
+						{ MvMod.config.speedGainColor = it.rgb })
 					.controller(ColorControllerBuilder::create)
 					.build())
 				
@@ -106,9 +106,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 						Option.createBuilder<Color>()
 					.name(Text.of("Speed loss color"))
 					.description(OptionDescription.of(Text.of("Color of speed delta indicator when you lose gained speed")))
-					.binding(ReSquakeConfig.SPEED_LOSS_COLOR,
-						{ Color(ReSquakeMod.config.speedLossColor) },
-						{ ReSquakeMod.config.speedLossColor = it.rgb })
+					.binding(MvConfig.SPEED_LOSS_COLOR,
+						{ Color(MvMod.config.speedLossColor) },
+						{ MvMod.config.speedLossColor = it.rgb })
 					.controller(ColorControllerBuilder::create)
 					.build())
 				
@@ -116,9 +116,9 @@ fun generateConfigScreen(parent: Screen?): Screen
 					Option.createBuilder<Color>()
 					.name(Text.of("Speed unchanged color"))
 					.description(OptionDescription.of(Text.of("Color of speed delta indicator when your speed remains the same")))
-					.binding(ReSquakeConfig.SPEED_UNCHANGED_COLOR,
-						{ Color(ReSquakeMod.config.speedUnchangedColor) },
-						{ ReSquakeMod.config.speedUnchangedColor = it.rgb })
+					.binding(MvConfig.SPEED_UNCHANGED_COLOR,
+						{ Color(MvMod.config.speedUnchangedColor) },
+						{ MvMod.config.speedUnchangedColor = it.rgb })
 					.controller(ColorControllerBuilder::create)
 					.build())
 				.build())

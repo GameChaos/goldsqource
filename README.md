@@ -1,6 +1,6 @@
-Updated for Minecraft 1.21 on Java 21
+Updated for Minecraft 1.21.4 on Java 21
 
-Compiled with Gradle 8.8
+Compiled with Gradle 8.11
 
 <h1 align="center">
 <img src="src/main/resources/assets/resquake/icon.png">
@@ -14,11 +14,8 @@ This mod works fine if installed only on the client, but in order to prevent fal
 ### Features
 - quake-style movement
 - bunnyhop
-- trimping
-- sharking
 - basic speed indicator
 - in-game config
-- adjustable values
 - keybind to toggle the mod
 
 ### Build Instructions
@@ -29,6 +26,7 @@ This mod works fine if installed only on the client, but in order to prevent fal
 The built jar file will be in `build/libs/`
 
 ### Credits
+- [Полина](https://github.com/polina4096) for [porting to kotlin](https://github.com/polina4096/resquake)
 - [Tlesis](https://github.com/Tlesis) and [LeviOP](https://github.com/LeviOP) for [SquakePlusPlus fork](https://github.com/Tlesis/SquakePlusPlus)
 - [He11crow](https://github.com/He11crow) for [porting](https://github.com/He11crow/SquakeFabric) the original to fabric [(Modrinth)](https://modrinth.com/mod/squakefabric)
 - [squeek502](https://github.com/squeek502) for the [original](https://github.com/squeek502/Squake) squake forge mod [(CurseForge)](https://www.curseforge.com/minecraft/mc-mods/squake)

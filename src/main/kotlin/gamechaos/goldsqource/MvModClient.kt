@@ -17,28 +17,28 @@ import kotlin.math.roundToInt
 import net.minecraft.client.render.RenderTickCounter
 
 
-object ReSquakeModClient : ClientModInitializer {
-	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${ReSquakeMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.${ReSquakeMod.ID}"))
-	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${ReSquakeMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.${ReSquakeMod.ID}"))
+object MvModClient : ClientModInitializer {
+	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.${MvMod.ID}"))
+	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.${MvMod.ID}"))
 	
 	override fun onInitializeClient()
 	{
 		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: MinecraftClient ->
 			if (client.player != null)
 			{
-				//ReSquakePlayer.jumping = client.player!!.input.jumping
-				ReSquakePlayer.jumping = client.player!!.input.playerInput.jump()
-				if (ReSquakeMod.config.bufferedJump)
+				//MvPlayer.jumping = client.player!!.input.jumping
+				MvPlayer.jumping = client.player!!.input.playerInput.jump()
+				if (MvMod.config.bufferedJump)
 				{
 					//if (!client.player!!.input.jumping)
 					if (!client.player!!.input.playerInput.jump())
 					{
-						ReSquakePlayer.jumped = false
+						MvPlayer.jumped = false
 					}
-					else if (ReSquakePlayer.jumped)
+					else if (MvPlayer.jumped)
 					{
 						// this is so that you don't airaccelerate on the ground
-						ReSquakePlayer.jumping = false
+						MvPlayer.jumping = false
 					}
 				}
 			}
@@ -50,8 +50,8 @@ object ReSquakeModClient : ClientModInitializer {
 			
 			while (keyToggle.wasPressed())
 			{
-				ReSquakeMod.config.quakeMovementEnabled = !ReSquakeMod.config.quakeMovementEnabled
-				if (ReSquakeMod.config.quakeMovementEnabled)
+				MvMod.config.quakeMovementEnabled = !MvMod.config.quakeMovementEnabled
+				if (MvMod.config.quakeMovementEnabled)
 				{
 					client.player?.sendMessage(Text.translatable("goldsqource.enabled"), true)
 				}

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import gamechaos.goldsqource.ReSquakePlayer;
+import gamechaos.goldsqource.MvPlayer;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends LivingEntity {
@@ -23,7 +23,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 	@Inject(method = "travel", at = @At("HEAD"), cancellable = true)
 	public void travelInject(Vec3d movementInput, CallbackInfo ci) {
 		PlayerEntity player = (PlayerEntity)(Object)this;
-		if (ReSquakePlayer.INSTANCE.travel(player, movementInput)) {
+		if (MvPlayer.INSTANCE.travel(player, movementInput)) {
 			ci.cancel();
 		}
 	}
@@ -31,7 +31,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 	@Inject(method = "tick", at = @At("HEAD"))
 	public void tickInject(CallbackInfo ci) {
 		PlayerEntity player = (PlayerEntity)(Object)this;
-		ReSquakePlayer.INSTANCE.beforeTick(player);
+		MvPlayer.INSTANCE.beforeTick(player);
 	}
 
 	public boolean velocityChanged = false;

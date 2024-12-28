@@ -12,7 +12,7 @@ import kotlin.io.path.writeText
 private val json = Json { prettyPrint = true }
 
 @Serializable
-class ReSquakeConfig(@Transient var path: Path? = null)
+class MvConfig(@Transient var path: Path? = null)
 {
 	/* General */
 	// Movement
@@ -69,16 +69,16 @@ class ReSquakeConfig(@Transient var path: Path? = null)
 		const val DEFAULT_AIR_ACCELERATION         =  10.000
 		const val DEFAULT_MAX_AACEL_PER_TICK       =   30.0
 		
-		fun load(path: Path): ReSquakeConfig
+		fun load(path: Path): MvConfig
 		{
 			if (!path.exists())
 			{
-				return ReSquakeConfig(path)
+				return MvConfig(path)
 			}
 			
 			val inputStream = Files.newInputStream(path)
 			val inputString = inputStream.bufferedReader().use { it.readText() }
-			return Json.decodeFromString<ReSquakeConfig>(inputString).also { it.path = path }
+			return Json.decodeFromString<MvConfig>(inputString).also { it.path = path }
 		}
 	}
 }
