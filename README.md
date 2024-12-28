@@ -3,8 +3,8 @@ Updated for Minecraft 1.21.4 on Java 21
 Compiled with Gradle 8.11
 
 <h1 align="center">
-<img src="src/main/resources/assets/resquake/icon.png">
-<br>re:squake
+<img src="src/main/resources/assets/goldsqource/icon.png">
+<br>goldsqource
 </h1>
  
 Kotlin rewrite of the popular mod which adds quake-style movement to minecraft using the fabric mod loader (should be compatible with quilt). Requires [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin), depends on [YetAnotherConfigLib](https://modrinth.com/mod/yacl), [Fabric API](https://modrinth.com/mod/fabric-api) and optionally [Mod Menu](https://modrinth.com/mod/modmenu).
