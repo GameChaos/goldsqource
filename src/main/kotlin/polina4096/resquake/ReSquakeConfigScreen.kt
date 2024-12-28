@@ -30,41 +30,12 @@ fun generateConfigScreen(parent: Screen?): Screen
 						{ ReSquakeMod.config.quakeMovementEnabled = it })
 					.controller(BooleanControllerBuilder::create)
 					.build())
-				
-				.option(
-					Option.createBuilder<Boolean>()
-					.name(Text.of("Sharking"))
-					.description(OptionDescription.of(Text.of("Enables/disables sharking (water glide)")))
-					.binding(ReSquakeConfig.DEFAULT_SHARKING_ENABLED,
-						{ ReSquakeMod.config.sharkingEnabled },
-						{ ReSquakeMod.config.sharkingEnabled = it })
-					.controller(BooleanControllerBuilder::create)
-					.build())
 				.build())
 			
 			.group(
 				OptionGroup.createBuilder()
 				.name(Text.of("Miscellaneous"))
 				.collapsed(false)
-				.option(
-					Option.createBuilder<Boolean>()
-					.name(Text.of("Uncapped bunnyhop"))
-					.description(OptionDescription.of(Text.of("If enabled, the soft and hard speed caps will not be applied at all")))
-					.binding(ReSquakeConfig.DEFAULT_UNCAPPED_BUNNYHOP,
-						{ ReSquakeMod.config.uncappedBunnyhop },
-						{ ReSquakeMod.config.uncappedBunnyhop = it })
-					.controller(BooleanControllerBuilder::create)
-					.build())
-				
-				.option(
-						Option.createBuilder<Boolean>()
-					.name(Text.of("No jump cooldown"))
-					.description(OptionDescription.of(Text.of("Enables/disables jump cooldown (better to leave enabled)")))
-					.binding(ReSquakeConfig.DEFAULT_NO_JUMP_COOLDOWN,
-						{ ReSquakeMod.config.noJumpCooldown },
-						{ ReSquakeMod.config.noJumpCooldown = it })
-					.controller(BooleanControllerBuilder::create)
-					.build())
 				
 				.option(
 						Option.createBuilder<Boolean>()
@@ -149,79 +120,6 @@ fun generateConfigScreen(parent: Screen?): Screen
 						{ Color(ReSquakeMod.config.speedUnchangedColor) },
 						{ ReSquakeMod.config.speedUnchangedColor = it.rgb })
 					.controller(ColorControllerBuilder::create)
-					.build())
-				.build())
-			.build())
-		
-		.category(
-			ConfigCategory.createBuilder()
-			.name(Text.of("Constants"))
-			.tooltip(Text.of("Movement-related values"))
-			.group(
-				OptionGroup.createBuilder()
-				.name(Text.of("Quake-style movement"))
-				.collapsed(false)
-				.option(
-					Option.createBuilder<Double>()
-					.name(Text.of("Hard cap speed (quake units)"))
-					.description(OptionDescription.of(Text.of("If you jump while above the hard cap speed your speed is set to the hard cap speed")))
-					.binding(ReSquakeConfig.DEFAULT_HARD_CAP_SPEED,
-						{ ReSquakeMod.config.hardCapSpeed },
-						{ ReSquakeMod.config.hardCapSpeed = it })
-					.controller(DoubleFieldControllerBuilder::create)
-					.build())
-				
-				.option(
-					Option.createBuilder<Double>()
-					.name(Text.of("Acceleration"))
-					.description(OptionDescription.of(Text.of("A higher value means you accelerate faster on the ground")))
-					.binding(ReSquakeConfig.DEFAULT_ACCELERATION,
-						{ ReSquakeMod.config.acceleration },
-						{ ReSquakeMod.config.acceleration = it })
-					.controller(DoubleFieldControllerBuilder::create)
-					.build())
-				
-				.option(
-					Option.createBuilder<Double>()
-					.name(Text.of("Air acceleration"))
-					.description(OptionDescription.of(Text.of("A higher value means you can turn more sharply in the air without losing speed")))
-					.binding(ReSquakeConfig.DEFAULT_AIR_ACCELERATION,
-						{ ReSquakeMod.config.airAcceleration },
-						{ ReSquakeMod.config.airAcceleration = it })
-					.controller(DoubleFieldControllerBuilder::create)
-					.build())
-				
-				.option(
-					Option.createBuilder<Double>()
-					.name(Text.of("Max air acceleration per tick (quake units)"))
-					.description(OptionDescription.of(Text.of("Limit for how much you can accelerate in a tick")))
-					.binding(ReSquakeConfig.DEFAULT_MAX_AACEL_PER_TICK,
-						{ ReSquakeMod.config.maxAAccPerTick },
-						{ ReSquakeMod.config.maxAAccPerTick = it })
-					.controller(DoubleFieldControllerBuilder::create)
-					.build())
-				.build())
-			
-			.group(
-				OptionGroup.createBuilder()
-				.name(Text.of("Sharking"))
-				.collapsed(false)
-				.option(
-					Option.createBuilder<Double>()
-					.name(Text.of("Surface tension"))
-					.binding(ReSquakeConfig.DEFAULT_SHARKING_SURFACE_TENSION,
-						{ ReSquakeMod.config.sharkingSurfaceTension },
-						{ ReSquakeMod.config.sharkingSurfaceTension = it })
-					.controller(DoubleFieldControllerBuilder::create)
-					.build())
-				
-				.option(
-						Option.createBuilder<Double>()
-					.name(Text.of("Sharking friction"))
-					.binding(ReSquakeConfig.DEFAULT_SHARKING_FRICTION,
-						{ ReSquakeMod.config.sharkingFriction },
-						{ ReSquakeMod.config.sharkingFriction = it })
-					.controller(DoubleFieldControllerBuilder::create)
 					.build())
 				.build())
 			.build())

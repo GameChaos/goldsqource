@@ -245,14 +245,7 @@ object ReSquakePlayer
 		// Sharking
 		if (this.isTouchingWater && !flying)
 		{
-			if (ReSquakeMod.config.sharkingEnabled)
-			{
-				return this.travelWaterQuake(wishspeed, wishdir.first, wishdir.second, sidemove, forwardmove)
-			}
-			else
-			{
-				return false // Use default minecraft water movement if disabled (https://github.com/polina4096/resquake/issues/4)
-			}
+			return false // Use default minecraft water movement
 		}
 		else
 		{
@@ -320,19 +313,6 @@ object ReSquakePlayer
 				this.airAccelerate(airWishspeed, wishdirAir.first, wishdirAir.second, airAcceleration)
 			}
 			this.yaw = realYaw
-			
-			// Movement on top of water
-			if (ReSquakeMod.config.sharkingEnabled
-				&& ReSquakeMod.config.sharkingSurfaceTension > 0.0
-				&& jumping
-				&& this.velocity.y < 0.0)
-			{
-				val isFallingIntoWater = this.world.containsFluid(this.boundingBox.offset(this.velocity))
-				if (isFallingIntoWater)
-				{
-					this.velocity = Vec3d(this.velocity.x, this.velocity.y * ReSquakeMod.config.sharkingSurfaceTension, this.velocity.z)
-				}
-			}
 		}
 		
 		// Apply velocity
@@ -463,11 +443,6 @@ object ReSquakePlayer
 	
 	private fun PlayerEntity.applyHardCap()
 	{
-		if (ReSquakeMod.config.uncappedBunnyhop)
-		{
-			return
-		}
-		
 		val hardCap = ReSquakeMod.config.hardCapSpeed * FROM_QUAKE * FRAMETIME
 		val speed = this.getSpeed()
 		
@@ -480,50 +455,6 @@ object ReSquakePlayer
 		}
 	}
 
-	// Sharking
-	private fun PlayerEntity.travelWaterQuake(wishspeed: Double, wishX: Double, wishZ: Double, sidemove: Double, forwardmove: Double): Boolean
-	{
-		// Collect all relevant movement values
-		val speed = this.getSpeed()
-		
-		// Move in water
-		if (!jumping
-			|| !this.doesNotCollide(0.0, 1.0, 0.0)
-			|| speed < 0.078f)
-		{
-			swimming = true
-			return false
-		}
-		else // Swim in water
-		{
-			swimming = false
-			
-			// Update last recorded speed
-			collectSpeed(speed)
-			
-			// Apply friction
-			if (speed > 0.090)
-			{
-				this.velocity = this.velocity.multiply(ReSquakeMod.config.sharkingFriction)
-			}
-			
-			// Accelerate
-			if (speed > 0.098)
-			{
-				this.airAccelerate(wishspeed, wishX, wishZ, ReSquakeMod.config.acceleration)
-			}
-			else
-			{
-				this.accelerate(wishspeed, wishX, wishZ, ReSquakeMod.config.acceleration, 1.0)
-			}
-			
-			this.move(MovementType.SELF, this.velocity)
-			this.velocity = Vec3d(velocity.x, if (velocity.y >= 0) velocity.y else 0.0, velocity.z)
-		}
-		
-		return true
-	}
-	
 	// Particles
 	private fun PlayerEntity.spawnBunnyhopParticles(numParticles: Int)
 	{

@@ -26,10 +26,8 @@ public abstract class MixinLivingEntity
 			return;
 		}
 		
-		if (ReSquakeMod.config.getNoJumpCooldown())
-		{
-			jumpingCooldown = 0;
-		}
+		// no jumping cooldown!
+		jumpingCooldown = 0;
 		
 		if (ReSquakeMod.config.getBufferedJump())
 		{
