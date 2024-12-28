@@ -30,7 +30,7 @@ object ReSquakePlayer
 	var previousYaw   : Float  = 0.0f
 	var previousSpeed : Double  = 0.0
 	var currentSpeed  : Double  = 0.0
-	var jumping	      : Boolean = false
+	var jumping	   : Boolean = false
 	var jumped        : Boolean = false
 	var swimming	  : Boolean = false
 	
@@ -95,7 +95,7 @@ object ReSquakePlayer
 		if (!ReSquakeMod.config.quakeMovementEnabled
 			||  !player.world.isClient
 			||   player.abilities.flying
-			||   player.isFallFlying
+			//||   player.isFallFlying
 			||   player.vehicle != null)
 		{
 			return false
@@ -115,7 +115,8 @@ object ReSquakePlayer
 				(player.y - preY).pow(2) +
 				(player.z - preZ).pow(2)).pow(1.0 / 2.0)
 			
-			val flying = (player.abilities.flying || player.isFallFlying)
+			//val flying = (player.abilities.flying || player.isFallFlying)
+			val flying = (player.abilities.flying)
 			
 			// Apparently stats are stored with 2-digit fixed point precision
 			if (player is ServerPlayerEntity)
@@ -229,7 +230,8 @@ object ReSquakePlayer
 			return false
 		}
 		
-		val flying = (this.abilities.flying || this.isFallFlying)
+		//val flying = (this.abilities.flying || this.isFallFlying)
+		val flying = (this.abilities.flying)
 		if (this.isInLava && !flying)
 		{
 			return false // Swimming in lava

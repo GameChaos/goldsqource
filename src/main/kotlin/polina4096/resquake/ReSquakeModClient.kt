@@ -26,10 +26,12 @@ object ReSquakeModClient : ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: MinecraftClient ->
 			if (client.player != null)
 			{
-				ReSquakePlayer.jumping = client.player!!.input.jumping
+				//ReSquakePlayer.jumping = client.player!!.input.jumping
+				ReSquakePlayer.jumping = client.player!!.input.playerInput.jump()
 				if (ReSquakeMod.config.bufferedJump)
 				{
-					if (!client.player!!.input.jumping)
+					//if (!client.player!!.input.jumping)
+					if (!client.player!!.input.playerInput.jump())
 					{
 						ReSquakePlayer.jumped = false
 					}

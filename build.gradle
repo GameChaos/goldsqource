@@ -1,11 +1,14 @@
+
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'fabric-loom' version '1.9.2'
 	id 'maven-publish'
-	id "org.jetbrains.kotlin.jvm" version "2.0.0"
-	id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.0'
+	id "org.jetbrains.kotlin.jvm" version "2.1.0"
+	id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.0'
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+}
 targetCompatibility = JavaVersion.VERSION_21
 
 archivesBaseName = project.archives_base_name
@@ -15,7 +18,7 @@ group = project.maven_group
 repositories {
 	maven { url 'https://api.modrinth.com/maven/' }
 	maven { url 'https://maven.terraformersmc.com/releases/' }
-    	maven { url 'https://maven.isxander.dev/releases/' }
+	maven { url 'https://maven.isxander.dev/releases/' }
 }
 
 dependencies {
@@ -25,11 +28,11 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-	modImplementation "dev.isxander:yet-another-config-lib:3.5.0+1.21-fabric"
-	modCompileOnly "com.terraformersmc:modmenu:9.0.0"
+	modImplementation "dev.isxander:yet-another-config-lib:3.6.2+1.21.4-fabric"
+	modCompileOnly "com.terraformersmc:modmenu:13.0.0-beta.1"
 
-	modRuntimeOnly "dev.isxander:yet-another-config-lib:3.5.0+1.21-fabric"
-	modRuntimeOnly "com.terraformersmc:modmenu:11.0.0-rc.2"
+	modRuntimeOnly "dev.isxander:yet-another-config-lib:3.6.2+1.21.4-fabric"
+	modRuntimeOnly "com.terraformersmc:modmenu:13.0.0-beta.1"
 }
 
 processResources {

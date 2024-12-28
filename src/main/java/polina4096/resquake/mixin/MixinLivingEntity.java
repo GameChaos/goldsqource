@@ -6,8 +6,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.LivingEntity;
 import polina4096.resquake.ReSquakeMod;
+import polina4096.resquake.ReSquakePlayer;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity
@@ -19,6 +21,11 @@ public abstract class MixinLivingEntity
 	@Inject(method = "tickMovement", at = @At(value = "HEAD"))
 	public void tickMovement(CallbackInfo ci)
 	{
+		if (!((Object)this instanceof PlayerEntity))
+		{
+			return;
+		}
+		
 		if (ReSquakeMod.config.getNoJumpCooldown())
 		{
 			jumpingCooldown = 0;
@@ -44,6 +51,11 @@ public abstract class MixinLivingEntity
 	@Inject(method = "jump", at = @At(value = "HEAD"), cancellable = true)
 	public void jump(CallbackInfo ci)
 	{
+		if (!((Object)this instanceof PlayerEntity))
+		{
+			return;
+		}
+		
 		if (!ReSquakeMod.config.getBufferedJump())
 		{
 			return;
@@ -57,5 +69,17 @@ public abstract class MixinLivingEntity
 		{
 			jumped = true;
 		}
+	}
+	
+	@Inject(method = "jump", at = @At(value = "TAIL"))
+	public void jumpPost(CallbackInfo ci)
+	{
+		if (!((Object)this instanceof PlayerEntity))
+		{
+			return;
+		}
+		
+		PlayerEntity player = (PlayerEntity)(Object)this;
+		ReSquakePlayer.INSTANCE.afterJump(player);
 	}
 }
