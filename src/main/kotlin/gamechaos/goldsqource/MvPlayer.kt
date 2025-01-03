@@ -95,7 +95,7 @@ object MvPlayer
 		if (!MvMod.config.quakeMovementEnabled
 			||  !player.world.isClient
 			||   player.abilities.flying
-			//||   player.isFallFlying
+			||   player.isGliding
 			||   player.vehicle != null)
 		{
 			return false
@@ -115,8 +115,7 @@ object MvPlayer
 				(player.y - preY).pow(2) +
 				(player.z - preZ).pow(2)).pow(1.0 / 2.0)
 			
-			//val flying = (player.abilities.flying || player.isFallFlying)
-			val flying = (player.abilities.flying)
+			val flying = (player.abilities.flying || player.isGliding)
 			
 			// Apparently stats are stored with 2-digit fixed point precision
 			if (player is ServerPlayerEntity)
@@ -230,8 +229,7 @@ object MvPlayer
 			return false
 		}
 		
-		//val flying = (this.abilities.flying || this.isFallFlying)
-		val flying = (this.abilities.flying)
+		val flying = (this.abilities.flying || this.isGliding)
 		if (this.isInLava && !flying)
 		{
 			return false // Swimming in lava
