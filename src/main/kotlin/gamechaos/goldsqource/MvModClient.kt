@@ -26,11 +26,9 @@ object MvModClient : ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: MinecraftClient ->
 			if (client.player != null)
 			{
-				//MvPlayer.jumping = client.player!!.input.jumping
 				MvPlayer.jumping = client.player!!.input.playerInput.jump()
 				if (MvMod.config.bufferedJump)
 				{
-					//if (!client.player!!.input.jumping)
 					if (!client.player!!.input.playerInput.jump())
 					{
 						MvPlayer.jumped = false
