@@ -26,9 +26,12 @@ public abstract class MixinLivingEntity
 			return;
 		}
 		
-		// no jumping cooldown!
-		jumpingCooldown = 0;
+		if (!MvMod.config.getQuakeMovementEnabled())
+		{
+			return;
+		}
 		
+		jumpingCooldown = 0;
 		if (MvMod.config.getBufferedJump())
 		{
 			if (!jumping)
@@ -54,6 +57,11 @@ public abstract class MixinLivingEntity
 			return;
 		}
 		
+		if (!MvMod.config.getQuakeMovementEnabled())
+		{
+			return;
+		}
+		
 		if (!MvMod.config.getBufferedJump())
 		{
 			return;
@@ -73,6 +81,11 @@ public abstract class MixinLivingEntity
 	public void jumpPost(CallbackInfo ci)
 	{
 		if (!((Object)this instanceof PlayerEntity))
+		{
+			return;
+		}
+		
+		if (!MvMod.config.getQuakeMovementEnabled())
 		{
 			return;
 		}
