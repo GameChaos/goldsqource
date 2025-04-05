@@ -3,6 +3,7 @@ package gamechaos.goldsqource
 import net.minecraft.block.BlockRenderType
 import net.minecraft.block.Blocks
 import net.minecraft.block.PowderSnowBlock
+import net.minecraft.block.LadderBlock
 import net.minecraft.entity.Entity
 import net.minecraft.entity.Flutterer
 import net.minecraft.entity.MovementType
@@ -14,7 +15,10 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkSectionPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.Direction
 import net.minecraft.text.Text
+import net.minecraft.state.property.EnumProperty
+import net.minecraft.state.property.Properties
 import kotlin.math.*
 
 
@@ -23,9 +27,11 @@ object MvPlayer
 	private var baseVelocities = mutableListOf<Pair<Double, Double>>()
 	private const val TO_QUAKE = 40.0 // 72 / 1.8 (player height in source divided by player height in minecraft)
 	private const val FROM_QUAKE = 1.0 / 40.0
-	private var TICKRATE = 20.0
-	private var FRAMETIME = 1.0 / TICKRATE
-	private var FAKE_FRAMETIME = 1.0 / 100.0 // for simulating 100 tick airacceleration
+	private const val TICKRATE = 20.0
+	private const val FRAMETIME = 1.0 / TICKRATE
+	private const val FAKE_FRAMETIME = 1.0 / 100.0 // for simulating 100 tick airacceleration
+	private const val MAX_CLIMB_SPEED = 200.0 // ladder climbing speed
+	private const val CLIMB_JUMPOFF_SPEED = 270.0
 	
 	var previousYaw   : Float  = 0.0f
 	var previousSpeed : Double  = 0.0
@@ -175,6 +181,28 @@ object MvPlayer
 		
 		return Pair(0.0, 0.0)
 	}
+	
+	private fun PlayerEntity.toRadians(degrees: Double): Double = degrees / 180.0f * PI
+	private fun PlayerEntity.toDegrees(radians: Double): Double = radians * 180.0f / PI
+	
+	private fun PlayerEntity.anglesToVectors(pitch: Double, yaw: Double): Pair<Vec3d, Vec3d>
+	{
+		var radAngles = Vec3d(
+			this.toRadians(pitch),
+			this.toRadians(yaw),
+			0.0
+		);
+		
+		var cosPitch = cos(radAngles.x);
+		var sinPitch = sin(radAngles.x);
+		
+		var cosYaw = cos(radAngles.y);
+		var sinYaw = sin(radAngles.y);
+		
+		var forwards = Vec3d(cosPitch * -sinYaw, -sinPitch, cosPitch * cosYaw)
+		var left = Vec3d(cosYaw, 0.0, sinYaw)
+		return Pair(forwards, left)
+	}
 
 	private const val QUAKE_MOVEMENT_SPEED_MULTIPLIER = 2.15
 	private const val QUAKE_SNEAKING_SPEED_MULTIPLIER = 0.65
@@ -223,12 +251,6 @@ object MvPlayer
 	
 	private fun PlayerEntity.travelQuake(sidemove: Double, forwardmove: Double): Boolean
 	{
-		// Fallback to default minecraft movement
-		if (this.isClimbing)
-		{
-			return false
-		}
-		
 		val flying = (this.abilities.flying || this.isGliding)
 		if (this.isInLava && !flying)
 		{
@@ -250,9 +272,100 @@ object MvPlayer
 			swimming = false
 		}
 		
-		// Ground movement
-		if (onGroundForReal)
+		if (this.isClimbing())
 		{
+			// laddermove!
+			var blockState = this.getWorld().getBlockState(this.getClimbingPos().orElse(null))
+			if (blockState == null || !blockState.isOf(Blocks.LADDER))
+			{
+				return false;
+			}
+			var ladderFacing: Direction = blockState.get(LadderBlock.FACING)
+			var ladderNormal = ladderFacing.getDoubleVector()
+				
+			var forward = 0.0
+			var left = 0.0
+			//var vpn: Vec3d;
+			//var v_left: Vec3d;
+			var speed = MAX_CLIMB_SPEED * FROM_QUAKE * FRAMETIME
+			
+			if (speed > this.getBaseSpeedMax())
+			{
+				speed = this.getBaseSpeedMax();
+			}
+			/*
+			if (forwardmove < 0.0)
+			{
+				forward -= speed;
+			}
+			if (forwardmove > 0.0)
+			{
+				forward += speed
+			}
+			if (sidemove < 0.0)
+			{
+				left -= speed
+			}
+			if (sidemove > 0.0)
+			{
+				left += speed
+			}
+			*/
+			val viewVectors = this.anglesToVectors(this.getPitch().toDouble(), this.getYaw().toDouble());
+			val vecForward = viewVectors.first;
+			val vecLeft = viewVectors.second;
+			//this.sendMessage(Text.translatable("%f %f %f   %f %f %f".format(vecForward.x, vecForward.y, vecForward.z, vecLeft.x, vecLeft.y, vecLeft.z)), false)
+			//this.sendMessage(Text.translatable("%f %f".format(sidemove, forwardmove)), false)
+			//this.sendMessage(Text.translatable("%f %f %f".format(ladderNormal.x, ladderNormal.y, ladderNormal.z)), false)
+			
+			if (jumping)
+			{
+				// jump off
+				this.velocity = ladderNormal.multiply(CLIMB_JUMPOFF_SPEED * FROM_QUAKE * FRAMETIME)
+			}
+			else
+			{
+				// move on ladder
+				if (forwardmove != 0.0 || sidemove != 0.0)
+				{
+					var velocity = vecForward.multiply(forwardmove * speed);
+					velocity = velocity.add(vecLeft.multiply(sidemove * speed));
+					
+					var tmp = Vec3d(0.0, 1.0, 0.0)
+					var perp = tmp.crossProduct(ladderNormal);
+					perp = perp.normalize();
+					
+					var normal = velocity.dotProduct(ladderNormal);
+					var cross = ladderNormal.multiply(normal);
+					
+					var lateral = velocity.subtract(cross);
+					
+					tmp = ladderNormal.crossProduct(perp);
+					// CUSTOM: add a little speed that moves the player into the ladder so that
+					//  they don't stick out a whole block
+					var wishdirVec = Vec3d(wishdir.first, 0.0, wishdir.second)
+					var movingAwayFromLadder = ladderNormal.dotProduct(wishdirVec) > 0;
+					if (!this.isOnGround || !movingAwayFromLadder)
+					{
+						lateral = lateral.add(ladderNormal.multiply(-MAX_CLIMB_SPEED * FROM_QUAKE * FRAMETIME))
+					}
+					this.velocity = lateral.add(tmp.multiply(-normal))
+						
+					// allow players to move away from ladder when on ground
+					if (this.isOnGround && movingAwayFromLadder)
+					{
+						this.velocity = this.velocity.add(ladderNormal.multiply(MAX_CLIMB_SPEED * FROM_QUAKE * FRAMETIME))
+					}
+				}
+				else
+				{
+					this.velocity = Vec3d(0.0, 0.0, 0.0)
+				}
+			}
+		}
+		else if (onGroundForReal)
+		{
+			// Ground movement
 			val slipperiness = this.getSlipperiness()
 			val xVel = this.velocity.x * slipperiness
 			val zVel = this.velocity.z * slipperiness
@@ -331,8 +444,11 @@ object MvPlayer
 			this.setOnGround(true)
 		}
 		
-		// HL2 code applies half gravity before acceleration and half after acceleration, but this seems to work fine
-		this.applyGravity()
+		if (!this.isClimbing)
+		{
+			// HL2 code applies half gravity before acceleration and half after acceleration, but this seems to work fine
+			this.applyGravity()
+		}
 		
 		// Cancel default minecraft movement behavior
 		return true
@@ -352,7 +468,8 @@ object MvPlayer
 		
 		// Powdered snow
 		if ((this.horizontalCollision || jumping)
-			&& (this.isClimbing || blockStateAtPos.isOf(Blocks.POWDER_SNOW)
+			//&& (this.isClimbing || blockStateAtPos.isOf(Blocks.POWDER_SNOW)
+			&& (blockStateAtPos.isOf(Blocks.POWDER_SNOW)
 			&& PowderSnowBlock.canWalkOnPowderSnow(this)))
 		{
 			yVel += 0.2
