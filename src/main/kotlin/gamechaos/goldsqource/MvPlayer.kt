@@ -101,7 +101,7 @@ object MvPlayer
 		if (!MvMod.config.quakeMovementEnabled
 			||  !player.world.isClient
 			||   player.abilities.flying
-			||   player.isGliding
+			||   player.isFallFlying
 			||   player.vehicle != null)
 		{
 			return false
@@ -121,7 +121,7 @@ object MvPlayer
 				(player.y - preY).pow(2) +
 				(player.z - preZ).pow(2)).pow(1.0 / 2.0)
 			
-			val flying = (player.abilities.flying || player.isGliding)
+			val flying = (player.abilities.flying || player.isFallFlying)
 			
 			// Apparently stats are stored with 2-digit fixed point precision
 			if (player is ServerPlayerEntity)
@@ -251,7 +251,7 @@ object MvPlayer
 	
 	private fun PlayerEntity.travelQuake(sidemove: Double, forwardmove: Double): Boolean
 	{
-		val flying = (this.abilities.flying || this.isGliding)
+		val flying = (this.abilities.flying || this.isFallFlying)
 		if (this.isInLava && !flying)
 		{
 			return false // Swimming in lava
@@ -281,7 +281,7 @@ object MvPlayer
 				return false;
 			}
 			var ladderFacing: Direction = blockState.get(LadderBlock.FACING)
-			var ladderNormal = ladderFacing.getDoubleVector()
+				var ladderNormal = Vec3d(ladderFacing.getUnitVector())
 				
 			var forward = 0.0
 			var left = 0.0
@@ -430,7 +430,7 @@ object MvPlayer
 		this.move(MovementType.SELF, this.velocity)
 		
 		// stick to ground, aka ledgegrab/glidestep
-		val list = this.getWorld().getEntityCollisions(null, this.getBoundingBox().stretch(movement))
+		val list = this.getWorld().getEntityCollisions(null, this.getBoundingBox())
 		val down = -(4.0 * FROM_QUAKE)
 		val movement: Vec3d = Entity.adjustMovementForCollisions(null, Vec3d(0.0, down, 0.0), this.getBoundingBox(), this.getWorld(), list)
 		if (movement.y > down
