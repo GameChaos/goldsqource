@@ -7,9 +7,9 @@ plugins {
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_17
 }
-targetCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = project.archives_base_name
 version = "${project.mod_version}+${project.minecraft_version}"
@@ -28,11 +28,11 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-	modImplementation "dev.isxander:yet-another-config-lib:3.6.6+1.20.6-fabric"
-	modCompileOnly "com.terraformersmc:modmenu:10.0.0"
+	modImplementation "dev.isxander:yet-another-config-lib:3.6.6+1.20.4-fabric"
+	modCompileOnly "com.terraformersmc:modmenu:9.0.0"
 
-	modRuntimeOnly "dev.isxander:yet-another-config-lib:3.6.6+1.20.6-fabric"
-	modRuntimeOnly "com.terraformersmc:modmenu:10.0.0"
+	modRuntimeOnly "dev.isxander:yet-another-config-lib:3.6.6+1.20.4-fabric"
+	modRuntimeOnly "com.terraformersmc:modmenu:9.0.0"
 }
 
 processResources {
@@ -44,12 +44,12 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 17
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 	kotlinOptions {
-		jvmTarget = 21
+		jvmTarget = 17
 	}
 }
 
