@@ -30,6 +30,16 @@ fun generateConfigScreen(parent: Screen?): Screen
 						{ MvMod.config.quakeMovementEnabled = it })
 					.controller(BooleanControllerBuilder::create)
 					.build())
+
+				.option(
+					Option.createBuilder<Boolean>()
+					.name(Text.of("Enable speed cap"))
+					.description(OptionDescription.of(Text.of("Enables/disables hard speed cap")))
+					.binding(MvConfig.DEFAULT_QUAKE_MOVEMENT_ENABLED,
+						{ MvMod.config.speedCapEnabled },
+						{ MvMod.config.speedCapEnabled = it })
+					.controller(BooleanControllerBuilder::create)
+					.build())
 				.build())
 			
 			.group(

@@ -561,7 +561,7 @@ object MvPlayer
 		val hardCap = MvMod.config.hardCapSpeed * FROM_QUAKE * FRAMETIME
 		val speed = this.getSpeed()
 		
-		if (speed > hardCap && hardCap != 0.0)
+		if (speed > hardCap && hardCap != 0.0 && MvMod.config.speedCapEnabled)
 		{
 			val multiplier = hardCap / speed
 			val xVel = this.velocity.x * multiplier
