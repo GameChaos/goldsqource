@@ -1,6 +1,6 @@
 
 plugins {
-	id 'fabric-loom' version '1.17-SNAPSHOT'
+	id 'fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 	id "org.jetbrains.kotlin.jvm" version "2.4.20"
 	id 'org.jetbrains.kotlin.plugin.serialization' version '2.4.20'
@@ -29,11 +29,11 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
-	modImplementation "dev.isxander:yet-another-config-lib:3.8.1+1.21.5-fabric"
-	modCompileOnly "com.terraformersmc:modmenu:14.0.2"
+	modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-	modRuntimeOnly "dev.isxander:yet-another-config-lib:3.8.1+1.21.5-fabric"
-	modRuntimeOnly "com.terraformersmc:modmenu:14.0.2"
+	modRuntimeOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+	modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {
