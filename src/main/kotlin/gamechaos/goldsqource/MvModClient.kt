@@ -10,6 +10,7 @@ import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
 import gamechaos.goldsqource.integration.ModMenuIntegration
 import kotlin.math.roundToInt
@@ -17,8 +18,9 @@ import net.minecraft.client.render.RenderTickCounter
 
 
 object MvModClient : ClientModInitializer {
-	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.${MvMod.ID}"))
-	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.${MvMod.ID}"))
+	private val CATEGORY: KeyBinding.Category = KeyBinding.Category.create(Identifier.of("${MvMod.ID}", "keybinds"))
+	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, CATEGORY))
+	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, CATEGORY))
 	
 	override fun onInitializeClient()
 	{

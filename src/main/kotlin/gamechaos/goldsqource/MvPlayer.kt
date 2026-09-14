@@ -56,7 +56,8 @@ object MvPlayer
 		{
 			return false // We are only interested in players
 		}
-		if (!player.world.isClient)
+		val world = player.getEntityWorld();
+		if (!world.isClient)
 		{
 			return false // And only in the client player
 		}
@@ -80,7 +81,8 @@ object MvPlayer
 	
 	fun afterJump(player: PlayerEntity)
 	{
-		if (player.world.isClient && MvMod.config.quakeMovementEnabled)
+		val world = player.getEntityWorld();
+		if (world.isClient && MvMod.config.quakeMovementEnabled)
 		{
 			if (player.isSprinting)
 			{
@@ -98,8 +100,9 @@ object MvPlayer
 	
 	fun travel(player: PlayerEntity, movementInput: Vec3d): Boolean
 	{
+		val world = player.getEntityWorld();
 		if (!MvMod.config.quakeMovementEnabled
-			||  !player.world.isClient
+			||  !world.isClient
 			||   player.abilities.flying
 			||   player.isGliding
 			||   player.vehicle != null)
@@ -151,7 +154,8 @@ object MvPlayer
 	
 	fun beforeTick(player: PlayerEntity)
 	{
-		if (player.world.isClient && baseVelocities.isNotEmpty())
+		val world = player.getEntityWorld();
+		if (world.isClient && baseVelocities.isNotEmpty())
 		{
 			baseVelocities.clear()
 		}
@@ -210,8 +214,9 @@ object MvPlayer
 	{
 		if (this.isOnGround)
 		{
+			val world = this.getEntityWorld();
 			val groundPos = BlockPos.ofFloored(this.x, this.boundingBox.minY - 1, this.z)
-			return this.world.getBlockState(groundPos).block.slipperiness.toDouble()
+			return world.getBlockState(groundPos).block.slipperiness.toDouble()
 		}
 
 		return 0.0
@@ -272,10 +277,11 @@ object MvPlayer
 			swimming = false
 		}
 		
+		var world = this.getEntityWorld();
 		if (this.isClimbing())
 		{
 			// laddermove!
-			var blockState = this.getWorld().getBlockState(this.getClimbingPos().orElse(null))
+			var blockState = world.getBlockState(this.getClimbingPos().orElse(null))
 			if (blockState == null || !blockState.isOf(Blocks.LADDER))
 			{
 				return false;
@@ -430,15 +436,15 @@ object MvPlayer
 		this.move(MovementType.SELF, this.velocity)
 		
 		// stick to ground, aka ledgegrab/glidestep
-		val list = this.getWorld().getEntityCollisions(null, this.getBoundingBox().stretch(movement))
+		val list = world.getEntityCollisions(null, this.getBoundingBox().stretch(movement))
 		val down = -(4.0 * FROM_QUAKE)
-		val movement: Vec3d = Entity.adjustMovementForCollisions(null, Vec3d(0.0, down, 0.0), this.getBoundingBox(), this.getWorld(), list)
+		val movement: Vec3d = Entity.adjustMovementForCollisions(null, Vec3d(0.0, down, 0.0), this.getBoundingBox(), world, list)
 		if (movement.y > down
 			&& !this.isOnGround
 			&& this.velocity.y * TICKRATE * TO_QUAKE < 200.0
 			&& this.velocity.y >= 0.0) // don't need to ledgegrab if falling down
 		{
-			val pos = this.getPos()
+			val pos = this.getEntityPos()
 			this.setPosition(pos.x, pos.y + movement.y, pos.z)
 			this.velocity = Vec3d(this.velocity.x, 0.0, this.velocity.z)
 			this.setOnGround(true)
@@ -489,6 +495,7 @@ object MvPlayer
 			onLanding()
 		}
 		
+		var world = this.getEntityWorld();
 		// Apply gravity
 		if (!world.isClient || world.chunkManager.isChunkLoaded(ChunkSectionPos.getSectionCoord(blockPos.x), ChunkSectionPos.getSectionCoord(blockPos.z)))
 		{
@@ -582,8 +589,9 @@ object MvPlayer
 		val i = floor(this.x                      ).toInt()
 		val j = floor(this.y - 0.20000000298023224).toInt()
 		val k = floor(this.z                      ).toInt()
-		
-		val blockState = this.world.getBlockState(BlockPos(i, j, k))
+			
+		val world = this.getEntityWorld();
+		val blockState = world.getBlockState(BlockPos(i, j, k))
 		if (blockState.renderType != BlockRenderType.INVISIBLE)
 		{
 			for (iParticle in 0 until numParticles)
@@ -597,7 +605,7 @@ object MvPlayer
 				val yVel = 1.5
 				
 				val effect = BlockStateParticleEffect(ParticleTypes.BLOCK, blockState)
-				this.world.addParticleClient(effect, x, y, z, xVel, yVel, zVel)
+				world.addParticleClient(effect, x, y, z, xVel, yVel, zVel)
 			}
 		}
 	}
