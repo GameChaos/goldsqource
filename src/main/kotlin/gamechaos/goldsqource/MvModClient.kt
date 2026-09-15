@@ -1,36 +1,30 @@
 package gamechaos.goldsqource
 
+import com.mojang.blaze3d.platform.InputConstants
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
-import net.minecraft.util.Identifier
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
+import net.minecraft.client.Minecraft
+import net.minecraft.client.KeyMapping
+import net.minecraft.network.chat.Component
+import net.minecraft.resources.Identifier
 import org.lwjgl.glfw.GLFW
-import gamechaos.goldsqource.integration.ModMenuIntegration
-import kotlin.math.roundToInt
-import net.minecraft.client.render.RenderTickCounter
 
 
 object MvModClient : ClientModInitializer {
-	private val CATEGORY: KeyBinding.Category = KeyBinding.Category.create(Identifier.of("${MvMod.ID}", "keybinds"))
-	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, CATEGORY))
-	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, CATEGORY))
+	private val CATEGORY: KeyMapping.Category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("${MvMod.ID}", "keybinds"))
+	private var keyToggle: KeyMapping = KeyMappingHelper.registerKeyMapping(KeyMapping("key.${MvMod.ID}.toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, CATEGORY))
+	private var keyConfig: KeyMapping = KeyMappingHelper.registerKeyMapping(KeyMapping("key.${MvMod.ID}.config", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, CATEGORY))
 	
 	override fun onInitializeClient()
 	{
-		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: MinecraftClient ->
+		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: Minecraft ->
 			if (client.player != null)
 			{
-				MvPlayer.jumping = client.player!!.input.playerInput.jump()
+				MvPlayer.jumping = client.player!!.input.keyPresses.jump()
 				if (MvMod.config.bufferedJump)
 				{
-					if (!client.player!!.input.playerInput.jump())
+					if (!client.player!!.input.keyPresses.jump())
 					{
 						MvPlayer.jumped = false
 					}
@@ -42,21 +36,21 @@ object MvModClient : ClientModInitializer {
 				}
 			}
 			
-			if (keyConfig.wasPressed())
+			if (keyConfig.consumeClick())
 			{
-				client.setScreen(generateConfigScreen(client.currentScreen))
+				client.setScreen(generateConfigScreen(client.screen))
 			}
 			
-			while (keyToggle.wasPressed())
+			while (keyToggle.consumeClick())
 			{
 				MvMod.config.quakeMovementEnabled = !MvMod.config.quakeMovementEnabled
 				if (MvMod.config.quakeMovementEnabled)
 				{
-					client.player?.sendMessage(Text.translatable("goldsqource.enabled"), true)
+					client.player?.sendSystemMessage(Component.translatable("goldsqource.enabled"))
 				}
 				else
 				{
-					client.player?.sendMessage(Text.translatable("goldsqource.disabled"), true)
+					client.player?.sendSystemMessage(Component.translatable("goldsqource.disabled"))
 				}
 			}
 		})
