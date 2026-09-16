@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.PowderSnowBlock
 import net.minecraft.world.level.block.LadderBlock
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.animal.FlyingAnimal
 import net.minecraft.world.entity.MoverType
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player
@@ -139,7 +138,7 @@ object MvPlayer
 			}
 			
 			// Swing arms and legs
-			player.calculateEntityAnimation(player is FlyingAnimal)
+			player.calculateEntityAnimation(false) // TODO: player.omnidirectionalAirMover() somehow?
 			previousYaw = player.yRot
 			return true
 		}
@@ -435,7 +434,7 @@ object MvPlayer
 		// stick to ground, aka ledgegrab/glidestep
 		val list = world.getEntityCollisions(null, this.getBoundingBox().expandTowards(this.getKnownSpeed()))
 		val down = -(4.0 * FROM_QUAKE)
-		val movement: Vec3 = Entity.collideBoundingBox(null, Vec3(0.0, down, 0.0), this.getBoundingBox(), world, list)
+		val movement: Vec3 = Entity.collideBoundingBox(this, Vec3(0.0, down, 0.0), this.getBoundingBox(), world, list)
 		if (movement.y > down
 			&& !this.onGround()
 			&& this.deltaMovement.y * TICKRATE * TO_QUAKE < 200.0

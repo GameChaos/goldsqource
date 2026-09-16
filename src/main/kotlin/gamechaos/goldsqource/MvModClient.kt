@@ -38,7 +38,7 @@ object MvModClient : ClientModInitializer {
 			
 			if (keyConfig.consumeClick())
 			{
-				client.setScreen(generateConfigScreen(client.screen))
+				client.gui.setScreen(generateConfigScreen(client.gui.screen()))
 			}
 			
 			while (keyToggle.consumeClick())
