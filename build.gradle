@@ -2,16 +2,10 @@
 plugins {
 	id 'fabric-loom' version '1.9.2'
 	id 'maven-publish'
-	id "org.jetbrains.kotlin.jvm" version "2.1.0"
-	id 'org.jetbrains.kotlin.plugin.serialization' version '2.1.0'
+	id "org.jetbrains.kotlin.jvm" version "2.4.20"
+	id 'org.jetbrains.kotlin.plugin.serialization' version '2.4.20'
 }
 
-java {
-	sourceCompatibility = JavaVersion.VERSION_21
-}
-targetCompatibility = JavaVersion.VERSION_21
-
-archivesBaseName = project.archives_base_name
 version = "${project.mod_version}+${project.minecraft_version}"
 group = project.maven_group
 
@@ -58,11 +52,13 @@ java {
 	// if it is present.
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.archives_base_name}"}
 	}
 }
 
