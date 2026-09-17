@@ -8,13 +8,12 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.KeyMapping
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
-import org.lwjgl.glfw.GLFW
 
 
 object MvModClient : ClientModInitializer {
 	private val CATEGORY: KeyMapping.Category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("${MvMod.ID}", "keybinds"))
-	private var keyToggle: KeyMapping = KeyMappingHelper.registerKeyMapping(KeyMapping("key.${MvMod.ID}.toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, CATEGORY))
-	private var keyConfig: KeyMapping = KeyMappingHelper.registerKeyMapping(KeyMapping("key.${MvMod.ID}.config", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, CATEGORY))
+	private var keyToggle: KeyMapping = KeyMappingHelper.registerKeyMapping(KeyMapping("key.${MvMod.ID}.toggle", InputConstants.Type.KEYBOARD, InputConstants.KEY_B, CATEGORY))
+	private var keyConfig: KeyMapping = KeyMappingHelper.registerKeyMapping(KeyMapping("key.${MvMod.ID}.config", InputConstants.Type.KEYBOARD, InputConstants.UNKNOWN.getValue(), CATEGORY))
 	
 	override fun onInitializeClient()
 	{
