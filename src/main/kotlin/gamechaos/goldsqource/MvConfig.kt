@@ -17,6 +17,7 @@ class MvConfig(@Transient var path: Path? = null)
 	/* General */
 	// Movement
 	var quakeMovementEnabled       : Boolean = DEFAULT_QUAKE_MOVEMENT_ENABLED
+	var speedCapEnabled            : Boolean = DEFAULT_QUAKE_MOVEMENT_ENABLED
 	
 	// Miscellaneous
 	var bufferedJump               : Boolean = DEFAULT_BUFFERED_JUMP
@@ -47,6 +48,7 @@ class MvConfig(@Transient var path: Path? = null)
 		/* General */
 		// Movement
 		const val DEFAULT_QUAKE_MOVEMENT_ENABLED        = true
+		const val DEFAULT_SPEED_CAP_ENABLED             = true
 		
 		// Miscellaneous
 		const val DEFAULT_UNCAPPED_BUNNYHOP             = true

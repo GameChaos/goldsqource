@@ -5,23 +5,22 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.LivingEntity;
 import gamechaos.goldsqource.MvMod;
 import gamechaos.goldsqource.MvPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 @Mixin(LivingEntity.class)
 public abstract class MixinLivingEntity
 {
-	@Shadow private int jumpingCooldown;
+	@Shadow private int noJumpDelay;
 	@Shadow protected boolean jumping;
 	public Boolean jumped = false;
 
-	@Inject(method = "tickMovement", at = @At(value = "HEAD"))
+	@Inject(method = "aiStep", at = @At(value = "HEAD"))
 	public void tickMovement(CallbackInfo ci)
 	{
-		if (!((Object)this instanceof PlayerEntity))
+		if (!((Object)this instanceof Player))
 		{
 			return;
 		}
@@ -31,7 +30,7 @@ public abstract class MixinLivingEntity
 			return;
 		}
 		
-		jumpingCooldown = 0;
+		noJumpDelay = 0;
 		if (MvMod.config.getBufferedJump())
 		{
 			if (!jumping)
@@ -49,10 +48,10 @@ public abstract class MixinLivingEntity
 		}
 	}
 	
-	@Inject(method = "jump", at = @At(value = "HEAD"), cancellable = true)
+	@Inject(method = "jumpFromGround", at = @At(value = "HEAD"), cancellable = true)
 	public void jump(CallbackInfo ci)
 	{
-		if (!((Object)this instanceof PlayerEntity))
+		if (!((Object)this instanceof Player))
 		{
 			return;
 		}
@@ -77,10 +76,10 @@ public abstract class MixinLivingEntity
 		}
 	}
 	
-	@Inject(method = "jump", at = @At(value = "TAIL"))
+	@Inject(method = "jumpFromGround", at = @At(value = "TAIL"))
 	public void jumpPost(CallbackInfo ci)
 	{
-		if (!((Object)this instanceof PlayerEntity))
+		if (!((Object)this instanceof Player))
 		{
 			return;
 		}
@@ -90,7 +89,7 @@ public abstract class MixinLivingEntity
 			return;
 		}
 		
-		PlayerEntity player = (PlayerEntity)(Object)this;
+		Player player = (Player)(Object)this;
 		MvPlayer.INSTANCE.afterJump(player);
 	}
 }

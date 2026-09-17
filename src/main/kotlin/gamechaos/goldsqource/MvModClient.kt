@@ -1,29 +1,23 @@
 package gamechaos.goldsqource
 
+import com.mojang.blaze3d.platform.InputConstants
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.option.KeyBinding
-import net.minecraft.client.util.InputUtil
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
+import net.minecraft.client.Minecraft
+import net.minecraft.client.KeyMapping
+import net.minecraft.network.chat.Component
+//import net.minecraft.resources.Identifier
 import org.lwjgl.glfw.GLFW
-import gamechaos.goldsqource.integration.ModMenuIntegration
-import kotlin.math.roundToInt
-import net.minecraft.client.render.RenderTickCounter
 
 
 object MvModClient : ClientModInitializer {
-	private var keyToggle: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.toggle", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.${MvMod.ID}"))
-	private var keyConfig: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("key.${MvMod.ID}.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "category.${MvMod.ID}"))
+	private var keyToggle: KeyMapping = KeyBindingHelper.registerKeyBinding(KeyMapping("key.${MvMod.ID}.toggle", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_B, "${MvMod.ID}"))
+	private var keyConfig: KeyMapping = KeyBindingHelper.registerKeyBinding(KeyMapping("key.${MvMod.ID}.config", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_UNKNOWN, "${MvMod.ID}"))
 	
 	override fun onInitializeClient()
 	{
-		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: MinecraftClient ->
+		ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick{ client: Minecraft ->
 			if (client.player != null)
 			{
 				MvPlayer.jumping = client.player!!.input.jumping
@@ -41,21 +35,21 @@ object MvModClient : ClientModInitializer {
 				}
 			}
 			
-			if (keyConfig.wasPressed())
+			if (keyConfig.consumeClick())
 			{
-				client.setScreen(generateConfigScreen(client.currentScreen))
+				client.setScreen(generateConfigScreen(client.screen))
 			}
 			
-			while (keyToggle.wasPressed())
+			while (keyToggle.consumeClick())
 			{
 				MvMod.config.quakeMovementEnabled = !MvMod.config.quakeMovementEnabled
 				if (MvMod.config.quakeMovementEnabled)
 				{
-					client.player?.sendMessage(Text.translatable("goldsqource.enabled"), true)
+					client.player?.displayClientMessage(Component.translatable("goldsqource.enabled"), true)
 				}
 				else
 				{
-					client.player?.sendMessage(Text.translatable("goldsqource.disabled"), true)
+					client.player?.displayClientMessage(Component.translatable("goldsqource.disabled"), true)
 				}
 			}
 		})

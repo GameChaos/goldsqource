@@ -1,16 +1,16 @@
 package gamechaos.goldsqource
 
-import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
-import net.minecraft.stat.StatFormatter
-import net.minecraft.stat.Stats
-import net.minecraft.util.Identifier
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.Registry
+import net.minecraft.stats.StatFormatter
+import net.minecraft.stats.Stats
+import net.minecraft.resources.ResourceLocation
 
 object MvStats
 {
-	val BHOP_ONE_CM = Identifier.of(MvMod.ID, "bhop_one_cm")
-	val SHARK_ONE_CM = Identifier.of(MvMod.ID, "shark_one_cm")
-	val TRIMPS = Identifier.of(MvMod.ID, "trimps")
+	val BHOP_ONE_CM = ResourceLocation(MvMod.ID, "bhop_one_cm")
+	val SHARK_ONE_CM = ResourceLocation(MvMod.ID, "shark_one_cm")
+	val TRIMPS = ResourceLocation(MvMod.ID, "trimps")
 	
 	fun register()
 	{
@@ -20,9 +20,9 @@ object MvStats
 		// registerStat(TRIMPS,       "trimps",       StatFormatter.DEFAULT)
 	}
 	
-	private fun registerStat(key: Identifier, id: String, formatter: StatFormatter)
+	private fun registerStat(key: ResourceLocation, id: String, formatter: StatFormatter)
 	{
-		Registry.register(Registries.CUSTOM_STAT, id, key)
-		Stats.CUSTOM.getOrCreateStat(key, formatter)
+		Registry.register(BuiltInRegistries.CUSTOM_STAT, id, key)
+		Stats.CUSTOM.get(key, formatter)
 	}
 }
