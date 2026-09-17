@@ -472,7 +472,7 @@ object MvPlayer
 		// Powdered snow
 		if ((this.horizontalCollision || jumping)
 			//&& (this.onClimbable() || getFeetBlockState().is(Blocks.POWDER_SNOW)
-			&& (this.getFeetBlockState().getBlock() == Blocks.POWDER_SNOW
+			&& (this.getInBlockState().getBlock() == Blocks.POWDER_SNOW
 			&& PowderSnowBlock.canEntityWalkOnPowderSnow(this)))
 		{
 			yVel += 0.2
