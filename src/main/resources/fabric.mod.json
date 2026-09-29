@@ -3,14 +3,8 @@
 	"id": "goldsqource",
 	"version": "${version}",
 	"name": "goldsqource",
-	"description": "Brings quake-style movement into the game.",
 	"authors": [
-		"GameChaos",
-		"Полина",
-		"He11crow",
-		"squeek502",
-		"Tlesis",
-		"LeviOP"
+		"GameChaos"
 	],
 	"contact": {
 		"sources": "https://github.com/GameChaos/resquake/"
@@ -20,22 +14,10 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			{
-				"value": "gamechaos.goldsqource.MvMod",
-				"adapter": "kotlin"
-			}
+			"gamechaos.goldsqource.Goldsqource"
 		],
 		"client": [
-			{
-				"value": "gamechaos.goldsqource.MvModClient",
-				"adapter": "kotlin"
-			}
-		],
-		"modmenu": [
-			{
-				"value": "gamechaos.goldsqource.integration.ModMenuIntegration",
-				"adapter": "kotlin"
-			}
+			"gamechaos.goldsqource.client.GoldsqourceClient"
 		]
 	},
 	"mixins": [
@@ -43,11 +25,9 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
-		"minecraft": ">=1.20.5 <=1.20.6",
+		"minecraft": "~1.20.6",
 		"java": ">=21",
-		"fabric-api": "*",
-		"fabric-language-kotlin": ">=1.11.0",
-		"yet_another_config_lib_v3": "*"
+		"fabric-api": "*"
 	},
 	"suggests": {
 		"modmenu": ">=11.0.0"
