@@ -1,0 +1,27 @@
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+mod.id = "goldsqource"
+mod.name = "goldsqource"
+mod.group = "gamechaos.goldsqource"
+mod.version = "3.0.0"
+
+loomx.loom_version = "1.18-SNAPSHOT"
+
+["1.20.6"]
+# Mod compatibility range in fabric.mod.json
+mod.mc_compat = ">=1.20.5 <=1.20.6"
+# List of releases to be marked compatible on Modrinth/Curseforge
+mod.mc_releases = ["1.20.5", "1.20.6"]
+
+deps.fabric_api = "0.98.0+1.20.6"
+deps.fabric_loader = "0.15.11"
+deps.modmenu = "10.0.0"
+deps.cloth_config = "14.0.139"
+
+["1.21.4"]
+mod.mc_compat = "1.21.4"
+mod.mc_releases = ["1.21.4"]
+
+deps.fabric_api = "0.108.1+1.21.4"
+deps.fabric_loader = "0.16.10"
+deps.modmenu = "13.0.0-beta.1"
+deps.cloth_config = "17.0.142"

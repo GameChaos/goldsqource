@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "goldsqource",
+	"id": "${id}",
 	"version": "${version}",
-	"name": "goldsqource",
+	"name": "${name}",
 	"authors": [
 		"GameChaos"
 	],
@@ -24,12 +24,11 @@
 		"goldsqource.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.20.6",
-		"java": ">=21",
-		"fabric-api": "*"
+		"fabricloader": ">=${loader}",
+		"minecraft": "${minecraft}",
+		"java": ">=${java}"
 	},
 	"suggests": {
-		"modmenu": ">=11.0.0"
+		"modmenu": ">=${modmenu}"
 	}
 }

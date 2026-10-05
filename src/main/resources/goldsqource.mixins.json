@@ -1,13 +1,16 @@
 {
-  "required": true,
-  "package": "gamechaos.goldsqource.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "MixinEntity",
-    "MixinLivingEntity",
-    "MixinPlayerEntity"
-  ],
-  "injectors": {
-    "defaultRequire": 1
+	"required": true,
+	"package": "gamechaos.goldsqource.client.mixin",
+	"compatibilityLevel": "${java}",
+	"client": [
+		"MixinEntity",
+		"MixinLivingEntity",
+		"MixinPlayerEntity"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
 	}
 }
